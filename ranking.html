@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>减排排行榜 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 排行榜页面特有样式 */
+        .ranking-header {
+            margin-bottom: 30px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .rank-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .rank-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .rank-badge {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .rank-info {
+            flex-grow: 1;
+        }
+        
+        .rank-name {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+        
+        .rank-detail {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .rank-score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-left: 20px;
+            text-align: right;
+        }
+        
+        .rank-unit {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: block;
+        }
+        
+        .rank-1 .rank-badge {
+            background-color: gold;
+            color: black;
+        }
+        
+        .rank-2 .rank-badge {
+            background-color: silver;
+            color: black;
+        }
+        
+        .rank-3 .rank-badge {
+            background-color: #cd7f32;
+            color: white;
+        }
+        
+        .rank-other .rank-badge {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+        }
+        
+        .my-rank {
+            border-left: 4px solid var(--primary-color);
+            background-color: rgba(76, 175, 80, 0.05);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+        }
+        
+        .competition-section {
+            margin-top: 40px;
+        }
+        
+        .competition-card {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .competition-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-right: 20px;
+        }
+        
+        .competition-info {
+            flex-grow: 1;
+        }
+        
+        .competition-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .competition-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .rank-progress {
+            width: 100%;
+            height: 10px;
+            background-color: #eeeeee;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .rank-progress-bar {
+            height: 100%;
+            background-color: var(--primary-color);
+            border-radius: 5px;
+        }
+        
+        @media (max-width: 768px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html" class="active">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+     <!-- 页面主体 -->
+     <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link active">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> / <span>排行榜</span>
+            </div>
+
+    <!-- 主要内容区 -->
+    <div class="main-content">
+        <div class="container">
+            <div class="ranking-header">
+                <h1 style="margin-bottom: 10px;">减排排行榜</h1>
+                <p style="color: var(--text-light);">查看各社区和学校的减排积分排名，一起为环保贡献力量</p>
+            </div>
+            
+            <!-- 统计数据展示 -->
+            <div class="stats-container">
+                <div class="card stat-card">
+                    <div class="stat-label">总减碳量</div>
+                    <div class="stat-value">1,245kg</div>
+                    <div>相当于种植62棵树</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-label">参与社区</div>
+                    <div class="stat-value">15</div>
+                    <div>共计1,500名居民参与</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-label">环保活动</div>
+                    <div class="stat-value">208</div>
+                    <div>本月已举办环保活动</div>
+                </div>
+            </div>
+            
+            <!-- 排行榜选项卡 -->
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="community">社区排行</button>
+                <button class="tab-btn" data-tab="school">学校排行</button>
+                <button class="tab-btn" data-tab="personal">个人排行</button>
+            </div>
+            
+            <!-- 社区排行榜内容 -->
+            <div class="tab-content active" id="community-tab">
+                <!-- 社区排名列表 -->
+                <div id="community-ranking-container">
+                    <!-- JavaScript将动态添加内容 -->
+                </div>
+            </div>
+            
+            <!-- 学校排行榜内容 -->
+            <div class="tab-content" id="school-tab">
+                <div id="school-ranking-container">
+                    <!-- 第一名 -->
+                    <div class="card rank-item rank-1">
+                        <div class="rank-badge">1</div>
+                        <div class="rank-info">
+                            <div class="rank-name">绿园小学</div>
+                            <div class="rank-detail">成员: 520人 | 本周增长: <span style="color: var(--success-color);">+15%</span></div>
+                        </div>
+                        <div class="rank-score">
+                            9850
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二名 -->
+                    <div class="card rank-item rank-2">
+                        <div class="rank-badge">2</div>
+                        <div class="rank-info">
+                            <div class="rank-name">阳光中学</div>
+                            <div class="rank-detail">成员: 680人 | 本周增长: <span style="color: var(--success-color);">+12%</span></div>
+                        </div>
+                        <div class="rank-score">
+                            8720
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第三名 -->
+                    <div class="card rank-item rank-3">
+                        <div class="rank-badge">3</div>
+                        <div class="rank-info">
+                            <div class="rank-name">和平小学</div>
+                            <div class="rank-detail">成员: 450人 | 本周增长: <span style="color: var(--success-color);">+8%</span></div>
+                        </div>
+                        <div class="rank-score">
+                            7650
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第四名 -->
+                    <div class="card rank-item rank-other">
+                        <div class="rank-badge">4</div>
+                        <div class="rank-info">
+                            <div class="rank-name">实验中学</div>
+                            <div class="rank-detail">成员: 720人 | 本周增长: <span style="color: var(--success-color);">+5%</span></div>
+                        </div>
+                        <div class="rank-score">
+                            6580
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第五名 -->
+                    <div class="card rank-item rank-other">
+                        <div class="rank-badge">5</div>
+                        <div class="rank-info">
+                            <div class="rank-name">新城小学</div>
+                            <div class="rank-detail">成员: 380人 | 本周增长: <span style="color: var(--error-color);">-2%</span></div>
+                        </div>
+                        <div class="rank-score">
+                            5240
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 个人排行榜内容 -->
+            <div class="tab-content" id="personal-tab">
+                <div class="card" style="padding: 20px; text-align: center; margin-bottom: 20px;">
+                    <p style="margin-bottom: 10px;">登录后可查看您在社区内的积分排名</p>
+                    <a href="login.html" class="btn btn-primary">立即登录</a>
+                </div>
+                
+                <div id="personal-ranking-container">
+                    <!-- 第一名 -->
+                    <div class="card rank-item rank-1">
+                        <div class="rank-badge">1</div>
+                        <div class="rank-info">
+                            <div class="rank-name">张明</div>
+                            <div class="rank-detail">阳光社区 | 连续参与: 45天</div>
+                        </div>
+                        <div class="rank-score">
+                            1280
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第二名 -->
+                    <div class="card rank-item rank-2">
+                        <div class="rank-badge">2</div>
+                        <div class="rank-info">
+                            <div class="rank-name">李华</div>
+                            <div class="rank-detail">绿树社区 | 连续参与: 38天</div>
+                        </div>
+                        <div class="rank-score">
+                            1150
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第三名 -->
+                    <div class="card rank-item rank-3">
+                        <div class="rank-badge">3</div>
+                        <div class="rank-info">
+                            <div class="rank-name">王芳</div>
+                            <div class="rank-detail">和谐花园 | 连续参与: 32天</div>
+                        </div>
+                        <div class="rank-score">
+                            980
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第四名 -->
+                    <div class="card rank-item rank-other">
+                        <div class="rank-badge">4</div>
+                        <div class="rank-info">
+                            <div class="rank-name">赵强</div>
+                            <div class="rank-detail">康泰小区 | 连续参与: 25天</div>
+                        </div>
+                        <div class="rank-score">
+                            860
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 第五名 -->
+                    <div class="card rank-item rank-other">
+                        <div class="rank-badge">5</div>
+                        <div class="rank-info">
+                            <div class="rank-name">陈静</div>
+                            <div class="rank-detail">宜居公寓 | 连续参与: 20天</div>
+                        </div>
+                        <div class="rank-score">
+                            750
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 进行中的比赛 -->
+            <div class="competition-section">
+                <h2 style="margin-bottom: 20px;">正在进行的环保比赛</h2>
+                
+                <div class="card competition-card">
+                    <div class="competition-icon">
+                        <i class="fas fa-trash-alt"></i>
+                    </div>
+                    <div class="competition-info">
+                        <div class="competition-title">春季社区垃圾分类挑战赛</div>
+                        <div class="competition-date">2025年4月1日 - 4月30日</div>
+                        <p>参与垃圾分类照片上传，获取双倍积分。当前领先：阳光社区</p>
+                        
+                        <div class="rank-progress">
+                            <div class="rank-progress-bar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card competition-card">
+                    <div class="competition-icon">
+                        <i class="fas fa-walking"></i>
+                    </div>
+                    <div class="competition-info">
+                        <div class="competition-title">步行上班月</div>
+                        <div class="competition-date">2025年5月1日 - 5月31日</div>
+                        <p>每天步行上班或上学，记录步数超过8000步即可获得额外积分。当前领先：绿树社区</p>
+                        
+                        <div class="rank-progress">
+                            <div class="rank-progress-bar" style="width: 40%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 切换按钮激活状态
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 切换内容显示
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+            
+            // 加载社区排行数据
+            loadCommunityRanking();
+            
+            // 检查用户登录状态，更新个人排行显示
+            checkUserLogin();
+        });
+        
+        // 加载社区排行数据
+        function loadCommunityRanking() {
+            const container = document.getElementById('community-ranking-container');
+            if (!container) return;
+            
+            // 从localStorage获取排行数据
+            const rankData = JSON.parse(localStorage.getItem('mockRankingData') || '[]');
+            
+            // 按积分降序排序
+            rankData.sort((a, b) => b.points - a.points);
+            
+            // 清空容器
+            container.innerHTML = '';
+            
+            // 添加排名项
+            rankData.forEach((community, index) => {
+                const rankItem = document.createElement('div');
+                rankItem.className = `card rank-item ${index < 3 ? 'rank-' + (index + 1) : 'rank-other'}`;
+                
+                // 获取用户所在社区
+                const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+                if (userData.community === community.name) {
+                    rankItem.classList.add('my-rank');
+                }
+                
+                rankItem.innerHTML = `
+                    <div class="rank-badge">${index + 1}</div>
+                    <div class="rank-info">
+                        <div class="rank-name">${community.name}</div>
+                        <div class="rank-detail">成员: ${community.members}人 | 本周增长: <span style="color: var(--success-color);">+${Math.floor(Math.random() * 15)}%</span></div>
+                    </div>
+                    <div class="rank-score">
+                        ${community.points}
+                        <span class="rank-unit">积分</span>
+                    </div>
+                `;
+                
+                container.appendChild(rankItem);
+            });
+        }
+        
+        // 检查用户登录状态
+        function checkUserLogin() {
+            const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+            const personalTab = document.getElementById('personal-tab');
+            
+            if (personalTab && userData.isLoggedIn) {
+                // 如果用户已登录，移除登录提示
+                const loginPrompt = personalTab.querySelector('.card');
+                if (loginPrompt) {
+                    loginPrompt.remove();
+                }
+                
+                // 可以在这里添加用户在排行榜中的位置标记
+                const personalRankings = document.querySelectorAll('#personal-ranking-container .rank-item');
+                if (personalRankings.length > 0) {
+                    // 假设用户在排行榜中的位置是随机的
+                    const randomIndex = Math.floor(Math.random() * personalRankings.length);
+                    
+                    // 添加"我的排名"标记
+                    const myRankItem = document.createElement('div');
+                    myRankItem.className = 'card rank-item rank-other my-rank';
+                    myRankItem.innerHTML = `
+                        <div class="rank-badge">?</div>
+                        <div class="rank-info">
+                            <div class="rank-name">${userData.username}（我）</div>
+                            <div class="rank-detail">${userData.community} | 连续参与: ${Math.floor(Math.random() * 30)}天</div>
+                        </div>
+                        <div class="rank-score">
+                            ${userData.points}
+                            <span class="rank-unit">积分</span>
+                        </div>
+                    `;
+                    
+                    // 在随机位置后插入
+                    personalRankings[randomIndex].after(myRankItem);
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>环保活动 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- 引入活动页面JS -->
+    <script src="js/activities.js"></script>
+    <style>
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            margin: 0;
+            color: var(--primary-color);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #888;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 30px;
+        }
+        
+        /* 修改页面布局样式 */
+        .page-wrapper {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        
+        .sidebar {
+            width: 250px;
+            min-width: 250px;
+            flex-shrink: 0;
+        }
+        
+        .main-content {
+            flex: 1;
+            min-width: 300px;
+            max-width: 100%;
+            width: 100%;
+        }
+        
+        /* 修改关于我们区域样式，使其位于页面底部 */
+        .about-info-section {
+            width: 100%;
+            margin-top: 30px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 20px;
+            clear: both;
+        }
+        
+        .about-info-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: space-between;
+        }
+        
+        .about-info-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .about-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--light-color);
+            padding-bottom: 8px;
+        }
+        
+        .about-content {
+            margin-bottom: 15px;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+        
+        .about-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin-bottom: 20px;
+        }
+        
+        .about-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .about-list li:before {
+            content: "•";
+            color: var(--primary-color);
+            font-size: 18px;
+            position: absolute;
+            left: 5px;
+            top: 0;
+        }
+        
+        .contact-info {
+            margin-bottom: 15px;
+        }
+        
+        .contact-info div {
+            margin-bottom: 8px;
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background-color: var(--light-color);
+            border-radius: 50%;
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* 视图切换相关样式 */
+        .tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+        }
+        
+        .tab:hover {
+            background-color: var(--light-color);
+        }
+        
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .view-container {
+            position: relative;
+        }
+        
+        .view-content {
+            display: none;
+            margin-bottom: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .view-content.active-view {
+            display: block;
+        }
+        
+        /* 日历视图样式 */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        .calendar-day {
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .calendar-day:hover {
+            background-color: var(--light-color);
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                max-width: 100%;
+            }
+        }
+        
+        /* 日历视图优化样式 */
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .date-cell {
+            position: relative;
+            min-height: 80px;
+            transition: all 0.2s ease;
+            overflow: hidden;
+        }
+        
+        .date-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        
+        .date-cell.has-activity {
+            background-color: rgba(var(--primary-rgb), 0.05);
+        }
+        
+        .date-cell.selected {
+            box-shadow: 0 0 0 2px var(--primary-color);
+            z-index: 5;
+        }
+        
+        .activity-tag {
+            animation: slideIn 0.3s ease;
+        }
+        
+        .activity-day-container {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .activity-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .activity-detail-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .activity-detail-card:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .calendar-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            #calendar-grid {
+                font-size: 0.9rem;
+            }
+            
+            .date-cell {
+                min-height: 60px;
+                padding: 5px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保活动、知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link active">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item active">环保活动</div>
+            </div>
+            
+            <!-- 活动过滤器 -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <h3 style="margin-bottom: 15px;">活动筛选</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <select class="form-input" style="width: auto;">
+                                <option>全部活动</option>
+                                <option>线上活动</option>
+                                <option>线下活动</option>
+                                <option>仅显示可报名</option>
+                            </select>
+                            <select class="form-input" style="width: auto;">
+                                <option>全部分类</option>
+                                <option>垃圾分类</option>
+                                <option>植树造林</option>
+                                <option>低碳出行</option>
+                                <option>资源回收</option>
+                                <option>环保宣传</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                            <div class="search-bar" style="margin: 0;">
+                                <input type="text" class="search-input" placeholder="搜索活动名称、地点...">
+                                <button class="search-button"><i class="fas fa-search"></i></button>
+                            </div>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-filter"></i> 筛选
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <button id="publishActivityBtn" class="btn btn-primary" style="margin-top: 10px;">
+                            <i class="fas fa-plus"></i> 发布活动
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 切换视图按钮组 -->
+            <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
+                <div class="tabs">
+                    <span class="tab active" data-view="list-view">列表视图</span>
+                    <span class="tab" data-view="calendar-view">日历视图</span>
+                    <span class="tab" data-view="map-view">地图视图</span>
+                </div>
+                <div>
+                    <button class="btn btn-secondary" style="padding: 8px 15px;">
+                        <i class="fas fa-download"></i> 导出日程
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 活动视图容器 -->
+            <div class="view-container">
+                <!-- 列表视图 - 默认显示 -->
+                <div id="list-view" class="view-content active-view">
+                    <!-- 精选活动 -->
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">精选活动</h2>
+                        <div style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/banner.jpg'); background-size: cover; background-position: center; color: white; padding: 40px; border-radius: 10px; position: relative;">
+                            <div style="position: absolute; top: 20px; right: 20px; background-color: var(--primary-color); padding: 5px 15px; border-radius: 20px; font-size: 0.9rem;">
+                                <i class="fas fa-star"></i> 明星活动
+                            </div>
+                            <h2 style="font-size: 2rem; margin-bottom: 15px;">春季社区垃圾分类挑战赛</h2>
+                            <p style="font-size: 1.1rem; margin-bottom: 20px; max-width: 800px;">
+                                参与为期一个月的垃圾分类挑战，上传分类照片获取双倍积分，优胜社区将获得社区环境改造基金。
+                            </p>
+                            <div style="display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 20px;">
+                                <div><i class="far fa-calendar-alt"></i> 2025年4月1日 - 4月30日</div>
+                                <div><i class="fas fa-map-marker-alt"></i> 各社区垃圾分类站</div>
+                                <div><i class="fas fa-users"></i> 已有486人报名</div>
+                            </div>
+                            <div>
+                                <button class="btn btn-primary" style="padding: 10px 25px; font-size: 1.1rem;">
+                                    立即报名
+                                </button>
+                                <button class="btn btn-secondary" style="padding: 10px 25px; font-size: 1.1rem; margin-left: 10px;">
+                                    <i class="fas fa-share-alt"></i> 分享
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 即将开始的活动 -->
+                    <div style="margin-bottom: 30px;">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">即将开始的活动</h2>
+                        
+                        <div class="card" style="margin-bottom: 20px; display: flex; flex-direction: column;" data-activity-id="2">
+                            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 300px;">
+                                    <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                                        <div style="width: 80px; height: 80px; background-image: url('images/activity-tree-planting.jpg'); background-size: cover; background-position: center; border-radius: 10px;">
+                                        </div>
+                                        <div>
+                                            <h3 style="margin-bottom: 5px; font-size: 1.3rem;">社区植树节活动</h3>
+                                            <div style="color: var(--text-light); margin-bottom: 10px;">
+                                                <i class="fas fa-map-marker-alt"></i> 青青公园 | 
+                                                <i class="far fa-clock"></i> 09:00-12:00
+                                            </div>
+                                            <div>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px;">
+                                                    植树造林
+                                                </span>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem;">
+                                                    线下活动
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-light); margin-bottom: 15px;">
+                                        在青青公园参与植树活动，为社区增添绿色。每位参与者可获得100碳积分，并由专业园艺师指导种植技巧。
+                                    </p>
+                                </div>
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 10px; min-width: 200px;">
+                                    <div style="color: var(--text-light);"><i class="fas fa-users"></i> 已有128人报名 / 限200人</div>
+                                    <button class="btn btn-primary register-btn">立即报名</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="margin-bottom: 20px; display: flex; flex-direction: column;" data-activity-id="3">
+                            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 300px;">
+                                    <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                                        <div style="width: 80px; height: 80px; background-image: url('images/activity-recycling.jpg'); background-size: cover; background-position: center; border-radius: 10px;">
+                                        </div>
+                                        <div>
+                                            <h3 style="margin-bottom: 5px; font-size: 1.3rem;">二手物品交换集市</h3>
+                                            <div style="color: var(--text-light); margin-bottom: 10px;">
+                                                <i class="fas fa-map-marker-alt"></i> 社区活动中心 | 
+                                                <i class="far fa-clock"></i> 14:00-17:00
+                                            </div>
+                                            <div>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px;">
+                                                    资源回收
+                                                </span>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem;">
+                                                    线下活动
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-light); margin-bottom: 15px;">
+                                        带上您家中闲置但仍有使用价值的物品，参与社区集市，以物换物，减少浪费。每成功交换一件物品可获得30碳积分。
+                                    </p>
+                                </div>
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 10px; min-width: 200px;">
+                                    <div style="color: var(--text-light);"><i class="fas fa-users"></i> 已有86人报名 / 不限人数</div>
+                                    <button class="btn btn-primary register-btn">立即报名</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card" style="margin-bottom: 20px; display: flex; flex-direction: column;" data-activity-id="4">
+                            <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+                                <div style="flex: 1; min-width: 300px;">
+                                    <div style="display: flex; gap: 15px; margin-bottom: 10px;">
+                                        <div style="width: 80px; height: 80px; background-color: var(--light-color); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--primary-color); font-weight: bold;">
+                                            <div style="font-size: 1.8rem;">30</div>
+                                            <div>4月</div>
+                                        </div>
+                                        <div>
+                                            <h3 style="margin-bottom: 5px; font-size: 1.3rem;">线上环保知识竞赛</h3>
+                                            <div style="color: var(--text-light); margin-bottom: 10px;">
+                                                <i class="fas fa-globe"></i> 线上活动 | 
+                                                <i class="far fa-clock"></i> 19:30-21:00
+                                            </div>
+                                            <div>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem; margin-right: 5px;">
+                                                    环保宣传
+                                                </span>
+                                                <span style="background-color: var(--light-color); color: var(--primary-color); padding: 3px 8px; border-radius: 5px; font-size: 0.8rem;">
+                                                    线上活动
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p style="color: var(--text-light); margin-bottom: 15px;">
+                                        参与线上环保知识竞赛，测试您的环保知识水平。前10名将获得精美环保礼品，所有参与者可获得50碳积分。
+                                    </p>
+                                </div>
+                                <div style="display: flex; flex-direction: column; justify-content: center; align-items: flex-end; gap: 10px; min-width: 200px;">
+                                    <div style="color: var(--text-light);"><i class="fas fa-users"></i> 已有215人报名 / 不限人数</div>
+                                    <button class="btn btn-primary register-btn">立即报名</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button class="btn btn-secondary">查看更多活动</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 日历视图 -->
+                <div id="calendar-view" class="view-content">
+                    <h2 style="margin-bottom: 20px; color: var(--dark-color);">活动日历</h2>
+                    
+                    <!-- 年份月份选择器 -->
+                    <div class="card" style="margin-bottom: 20px; padding: 15px;">
+                        <div class="calendar-header">
+                            <div style="display: flex; align-items: center;">
+                                <select id="calendar-year" class="form-input" style="width: auto; margin-right: 10px;">
+                                    <option value="2024">2024年</option>
+                                    <option value="2025" selected>2025年</option>
+                                    <option value="2026">2026年</option>
+                                </select>
+                                <select id="calendar-month" class="form-input" style="width: auto;">
+                                    <option value="0">1月</option>
+                                    <option value="1">2月</option>
+                                    <option value="2">3月</option>
+                                    <option value="3" selected>4月</option>
+                                    <option value="4">5月</option>
+                                    <option value="5">6月</option>
+                                    <option value="6">7月</option>
+                                    <option value="7">8月</option>
+                                    <option value="8">9月</option>
+                                    <option value="9">10月</option>
+                                    <option value="10">11月</option>
+                                    <option value="11">12月</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button id="prev-month" class="btn btn-secondary"><i class="fas fa-chevron-left"></i> 上个月</button>
+                                <button id="current-month" class="btn btn-primary" style="margin: 0 10px;">今天</button>
+                                <button id="next-month" class="btn btn-secondary">下个月 <i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- 日历网格 -->
+                        <div id="calendar-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; text-align: center;">
+                            <!-- 星期标题 -->
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周日</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周一</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周二</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周三</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周四</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周五</div>
+                            <div style="font-weight: bold; padding: 10px; color: var(--text-light);">周六</div>
+                            
+                            <!-- 日期单元格由JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 当日活动预览 -->
+                    <div class="card activity-day-container" style="margin-bottom: 20px; padding: 20px;">
+                        <div class="activity-detail-header">
+                            <h3 id="selected-date-title" style="margin: 0; color: var(--dark-color);">2025年4月23日 活动</h3>
+                            <button class="btn btn-secondary" id="export-day-activity">
+                                <i class="fas fa-download"></i> 导出活动
+                            </button>
+                        </div>
+                        
+                        <!-- 无活动时显示的消息 -->
+                        <p id="no-activity-message" style="text-align: center; color: var(--text-light); padding: 20px 0; display: none;">
+                            <i class="fas fa-calendar-times" style="font-size: 3rem; color: #ddd; display: block; margin-bottom: 10px;"></i>
+                            该日期没有环保活动安排
+                            <a href="#" id="create-activity-link" style="display: block; margin-top: 10px; color: var(--primary-color);">
+                                <i class="fas fa-plus-circle"></i> 发起新活动
+                            </a>
+                        </p>
+                        
+                        <!-- 活动列表容器 -->
+                        <div id="day-activities-container">
+                            <!-- 活动项由JavaScript动态生成 -->
+                        </div>
+                    </div>
+                    
+                    <!-- 月度活动统计 -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h3 class="text-center mb-4">2025年四月活动统计</h3>
+                            <div class="row text-center">
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="text-muted">总活动数</div>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">8</div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="text-muted">线下活动</div>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--success-color);">5</div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="text-muted">线上活动</div>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">3</div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="text-muted">总积分</div>
+                                    <div style="font-size: 2rem; font-weight: bold; color: var(--warning-color);">315</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 日历视图 -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="calendar-header d-flex justify-content-between align-items-center mb-4">
+                                <div>
+                                    <h3 class="mb-0">活动日历</h3>
+                                    <p class="text-muted mb-0">查看和管理所有环保活动</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <button id="prev-month" class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button id="current-month" class="btn btn-sm btn-outline-primary me-2">
+                                        今天
+                                    </button>
+                                    <select id="calendar-year" class="form-select form-select-sm me-2" style="width: auto;">
+                                        <option value="2023">2023年</option>
+                                        <option value="2024">2024年</option>
+                                        <option value="2025" selected>2025年</option>
+                                        <option value="2026">2026年</option>
+                                    </select>
+                                    <select id="calendar-month" class="form-select form-select-sm me-2" style="width: auto;">
+                                        <option value="0">一月</option>
+                                        <option value="1">二月</option>
+                                        <option value="2">三月</option>
+                                        <option value="3" selected>四月</option>
+                                        <option value="4">五月</option>
+                                        <option value="5">六月</option>
+                                        <option value="6">七月</option>
+                                        <option value="7">八月</option>
+                                        <option value="8">九月</option>
+                                        <option value="9">十月</option>
+                                        <option value="10">十一月</option>
+                                        <option value="11">十二月</option>
+                                    </select>
+                                    <button id="next-month" class="btn btn-sm btn-outline-secondary">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 日历网格 -->
+                            <div class="calendar-wrapper mb-4">
+                                <div class="calendar-weekdays d-flex mb-2">
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周日</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周一</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周二</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周三</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周四</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周五</div>
+                                    <div class="weekday-cell" style="flex: 1; text-align: center; font-weight: bold; color: var(--text-light);">周六</div>
+                                </div>
+                                <div id="calendar-grid" class="calendar-grid d-grid" style="grid-template-columns: repeat(7, 1fr); gap: 8px;">
+                                    <!-- 日期单元格将通过JavaScript动态生成 -->
+                                </div>
+                            </div>
+
+                            <!-- 选中日期的活动列表 -->
+                            <div class="selected-date-activities">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h4 id="selected-date-title" class="mb-0">2025年4月23日 (周三) 活动</h4>
+                                    <div>
+                                        <a href="#" id="create-activity-link" class="btn btn-sm btn-primary me-2">
+                                            <i class="fas fa-plus"></i> 创建活动
+                                        </a>
+                                        <button id="export-day-activity" class="btn btn-sm btn-outline-secondary">
+                                            <i class="fas fa-download"></i> 导出活动
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="day-activities-container">
+                                    <!-- 该日期的活动将通过JavaScript动态生成 -->
+                                </div>
+                                <div id="no-activity-message" style="display: none;" class="text-center py-4 text-muted">
+                                    <i class="fas fa-calendar-times fa-3x mb-3"></i>
+                                    <p>当前日期没有活动安排</p>
+                                    <a href="#" id="create-activity-link-empty" class="btn btn-outline-primary">
+                                        <i class="fas fa-plus"></i> 创建新活动
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 地图视图 -->
+                <div id="map-view" class="view-content">
+                    <h2 style="margin-bottom: 20px; color: var(--dark-color);">活动地图</h2>
+                    
+                    <!-- 地图卡片 -->
+                    <div class="card" style="margin-bottom: 20px; padding: 0; overflow: hidden; border-radius: 8px;">
+                        <!-- 地图占位区域 -->
+                        <div style="position: relative; width: 100%; height: 400px; background-color: #f1f1f1; display: flex; justify-content: center; align-items: center;">
+                            <img src="images/map-placeholder.jpg" alt="活动地图" style="width: 100%; height: 100%; object-fit: cover;">
+                            
+                            <!-- 地图标记点 - 青青公园 -->
+                            <div style="position: absolute; top: 40%; left: 55%; transform: translate(-50%, -50%);">
+                                <div style="background-color: var(--primary-color); width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>
+                                <div style="background-color: white; padding: 8px 15px; border-radius: 5px; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); min-width: 120px; text-align: center;">
+                                    <strong>青青公园</strong><br>
+                                    <small>4月23日 植树活动</small>
+                                </div>
+                            </div>
+                            
+                            <!-- 地图标记点 - 社区活动中心 -->
+                            <div style="position: absolute; top: 60%; left: 35%; transform: translate(-50%, -50%);">
+                                <div style="background-color: var(--primary-color); width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>
+                                <div style="background-color: white; padding: 8px 15px; border-radius: 5px; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); min-width: 120px; text-align: center;">
+                                    <strong>社区活动中心</strong><br>
+                                    <small>4月27日 二手集市</small>
+                                </div>
+                            </div>
+                            
+                            <!-- 地图标记点 - 垃圾分类站 -->
+                            <div style="position: absolute; top: 30%; left: 75%; transform: translate(-50%, -50%);">
+                                <div style="background-color: var(--primary-color); width: 20px; height: 20px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 5px rgba(0,0,0,0.2);"></div>
+                                <div style="background-color: white; padding: 8px 15px; border-radius: 5px; margin-top: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); min-width: 120px; text-align: center;">
+                                    <strong>垃圾分类站</strong><br>
+                                    <small>4月1日起 分类挑战</small>
+                                </div>
+                            </div>
+                            
+                            <!-- 定位按钮 -->
+                            <div style="position: absolute; bottom: 20px; right: 20px; z-index: 100;">
+                                <button class="btn btn-primary" style="border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2);">
+                                    <i class="fas fa-location-arrow" style="font-size: 1.2rem;"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图控制栏 -->
+                        <div style="display: flex; justify-content: space-between; padding: 15px; border-top: 1px solid #eee;">
+                            <div>
+                                <button class="btn btn-secondary" style="margin-right: 10px;">
+                                    <i class="fas fa-filter"></i> 筛选活动
+                                </button>
+                                <button class="btn btn-secondary">
+                                    <i class="fas fa-sort-amount-down"></i> 距离排序
+                                </button>
+                            </div>
+                            <button class="btn btn-primary">
+                                <i class="fas fa-directions"></i> 导航前往
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 附近活动列表 -->
+                    <h3 style="margin-bottom: 15px; color: var(--dark-color);">附近的活动</h3>
+                    <div class="card" style="margin-bottom: 10px; padding: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 50px; height: 50px; background-color: var(--light-color); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--primary-color); font-weight: bold; margin-right: 15px;">
+                                    <div style="font-size: 1.2rem;">23</div>
+                                    <div style="font-size: 0.7rem;">4月</div>
+                                </div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">社区植树节活动</h4>
+                                    <div style="color: var(--text-light); font-size: 0.9rem;">
+                                        <i class="fas fa-map-marker-alt"></i> 青青公园 · <span style="color: var(--primary-color);">1.2公里</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" style="min-width: 100px;">报名参加</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card" style="margin-bottom: 10px; padding: 15px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="width: 50px; height: 50px; background-color: var(--light-color); border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: var(--primary-color); font-weight: bold; margin-right: 15px;">
+                                    <div style="font-size: 1.2rem;">27</div>
+                                    <div style="font-size: 0.7rem;">4月</div>
+                                </div>
+                                <div>
+                                    <h4 style="margin-bottom: 5px;">二手物品交换集市</h4>
+                                    <div style="color: var(--text-light); font-size: 0.9rem;">
+                                        <i class="fas fa-map-marker-alt"></i> 社区活动中心 · <span style="color: var(--primary-color);">0.8公里</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" style="min-width: 100px;">报名参加</button>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-secondary">查看更多附近活动</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 活动创建模态框 -->
+    <div id="createActivityModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">创建环保活动</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="activityForm">
+                <div class="form-group">
+                    <label for="activity-title">活动标题</label>
+                    <input type="text" id="activity-title" class="form-input" placeholder="请输入活动标题" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-type">活动类型</label>
+                    <select id="activity-type" class="form-input" required>
+                        <option value="">请选择活动类型</option>
+                        <option value="垃圾分类">垃圾分类</option>
+                        <option value="植树造林">植树造林</option>
+                        <option value="低碳出行">低碳出行</option>
+                        <option value="资源回收">资源回收</option>
+                        <option value="环保宣传">环保宣传</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-format">活动形式</label>
+                    <select id="activity-format" class="form-input" required>
+                        <option value="">请选择活动形式</option>
+                        <option value="线上活动">线上活动</option>
+                        <option value="线下活动">线下活动</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-location">活动地点</label>
+                    <input type="text" id="activity-location" class="form-input" placeholder="请输入活动地点（线上活动可填'线上'）">
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-date">活动日期</label>
+                    <input type="date" id="activity-date" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-time">活动时间</label>
+                    <input type="time" id="activity-time" class="form-input" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-max-participants">人数限制（可选，留空表示不限）</label>
+                    <input type="number" id="activity-max-participants" class="form-input" placeholder="请输入最大参与人数">
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-points">活动积分（默认50分）</label>
+                    <input type="number" id="activity-points" class="form-input" placeholder="请输入活动完成后可获得的积分" value="50">
+                </div>
+                
+                <div class="form-group">
+                    <label for="activity-description">活动描述</label>
+                    <textarea id="activity-description" class="form-input" placeholder="请详细描述活动内容、目的和参与方式..." required></textarea>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close">取消</button>
+                    <button type="submit" class="btn btn-primary">创建活动</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="footer">
+        <!-- 关于我们部分 - 移到页脚前 -->
+        <div class="about-info-section">
+            <div class="about-info-container">
+                <div class="about-info-column">
+                    <h3 class="about-title">关于我们</h3>
+                    <p class="about-content">
+                        社区低碳积分平台是一个致力于推动社区环保行动的创新服务平台。我们通过积分激励机制，鼓励居民参与各类环保活动，共同建设绿色社区。
+                    </p>
+                    <p class="about-content">
+                        平台提供碳行为记录、环保活动组织、积分兑换等功能，让环保行动变得简单而有趣。同时，我们也提供专业的环保知识和碳排放计算工具，帮助居民更好地了解自己的碳足迹。
+                    </p>
+                </div>
+                <div class="about-info-column">
+                    <h3 class="about-title">平台特色</h3>
+                    <ul class="about-list">
+                        <li>碳行为记录与积分奖励</li>
+                        <li>环保活动组织与参与</li>
+                        <li>积分兑换绿色商品</li>
+                        <li>环保知识学习与分享</li>
+                        <li>社区互动与环保排行</li>
+                    </ul>
+                </div>
+                <div class="about-info-column">
+                    <h3 class="about-title">联系我们</h3>
+                    <div class="contact-info">
+                        <div><i class="fas fa-phone"></i> 联系电话：15283675384</div>
+                        <div><i class="fas fa-envelope"></i> 邮箱：b111814@qq.com</div>
+                        <div><i class="fas fa-map-marker-alt"></i> 地址：四川省绵阳市绵阳师范学院</div>
+                    </div>
+                    <h3 class="about-title">关注我们</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon"><i class="fab fa-weixin"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-weibo"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-qq"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- 添加JavaScript引用 -->
+    <script src="green-community/js/activities.js"></script>
+
+    <!-- 页面加载后初始化日历视图的脚本 -->
+    <script>
+        // 确保DOM加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化年份选择框
+            const yearSelect = document.getElementById('calendar-year');
+            if (yearSelect) {
+                const currentYear = new Date().getFullYear();
+                // 添加从当前年份-2年到当前年份+3年的选项
+                for (let year = currentYear - 2; year <= currentYear + 3; year++) {
+                    const option = document.createElement('option');
+                    option.value = year;
+                    option.textContent = year + '年';
+                    yearSelect.appendChild(option);
+                }
+                // 设置当前年份为默认选中
+                yearSelect.value = currentYear;
+            }
+            
+            // 初始化月份选择框
+            const monthSelect = document.getElementById('calendar-month');
+            if (monthSelect) {
+                const currentMonth = new Date().getMonth();
+                // 设置当前月份为默认选中
+                monthSelect.value = currentMonth;
+            }
+            
+            // 更新月度活动统计
+            updateMonthlyStats();
+            
+            // 更新月度活动统计函数
+            function updateMonthlyStats() {
+                if (!window.activities) return;
+                
+                const year = parseInt(document.getElementById('calendar-year')?.value || new Date().getFullYear());
+                const month = parseInt(document.getElementById('calendar-month')?.value || new Date().getMonth());
+                
+                // 获取当月日期范围
+                const firstDay = new Date(year, month, 1);
+                const lastDay = new Date(year, month + 1, 0);
+                
+                // 筛选当月活动
+                const monthActivities = window.activities.filter(activity => {
+                    const activityDate = new Date(activity.date);
+                    return activityDate >= firstDay && activityDate <= lastDay;
+                });
+                
+                // 计算不同类型的活动数量
+                const offlineActivities = monthActivities.filter(activity => activity.format === '线下');
+                const onlineActivities = monthActivities.filter(activity => activity.format === '线上');
+                
+                // 计算总积分
+                const totalPoints = monthActivities.reduce((sum, activity) => sum + parseInt(activity.points || 0), 0);
+                
+                // 更新统计数据
+                const totalActivitiesEl = document.getElementById('total-activities');
+                const offlineActivitiesEl = document.getElementById('offline-activities');
+                const onlineActivitiesEl = document.getElementById('online-activities');
+                const totalPointsEl = document.getElementById('total-points');
+                
+                if (totalActivitiesEl) totalActivitiesEl.textContent = monthActivities.length;
+                if (offlineActivitiesEl) offlineActivitiesEl.textContent = offlineActivities.length;
+                if (onlineActivitiesEl) onlineActivitiesEl.textContent = onlineActivities.length;
+                if (totalPointsEl) totalPointsEl.textContent = totalPoints;
+            }
+            
+            // 监听年月选择变化
+            document.getElementById('calendar-year')?.addEventListener('change', updateMonthlyStats);
+            document.getElementById('calendar-month')?.addEventListener('change', updateMonthlyStats);
+        });
+    </script>
+</body>
+</html>

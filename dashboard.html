@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据看板 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保活动、知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link active">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item active">数据看板</div>
+            </div>
+            
+            <!-- 数据总览卡片 -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-leaf stat-icon"></i>
+                    <div class="stat-value">568</div>
+                    <div class="stat-label">个人减碳量(kg)</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-award stat-icon"></i>
+                    <div class="stat-value">1,250</div>
+                    <div class="stat-label">累计碳积分</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check stat-icon"></i>
+                    <div class="stat-value">42</div>
+                    <div class="stat-label">参与活动次数</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-sort-amount-up stat-icon"></i>
+                    <div class="stat-value">76</div>
+                    <div class="stat-label">社区排名</div>
+                </div>
+            </div>
+            
+            <!-- 数据筛选和时间选择 -->
+            <div class="card" style="margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                    <div>
+                        <h3 style="margin-bottom: 15px;">数据筛选</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <select class="form-input" style="width: auto;">
+                                <option>全部数据</option>
+                                <option>减碳数据</option>
+                                <option>积分数据</option>
+                                <option>活动数据</option>
+                            </select>
+                            <select class="form-input" style="width: auto;">
+                                <option>日视图</option>
+                                <option>周视图</option>
+                                <option selected>月视图</option>
+                                <option>年视图</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 style="margin-bottom: 15px;">时间范围</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="date" class="form-input" value="2025-01-01">
+                            <span style="display: flex; align-items: center;">至</span>
+                            <input type="date" class="form-input" value="2025-04-30">
+                            <button class="btn btn-primary" style="padding: 8px 12px;">应用</button>
+                        </div>
+                    </div>
+                    <div>
+                        <button class="btn btn-secondary" style="margin-top: 30px;">
+                            <i class="fas fa-download"></i> 导出数据
+                        </button>
+                        <button class="btn btn-secondary" style="margin-top: 30px; margin-left: 10px;">
+                            <i class="fas fa-print"></i> 打印报告
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 碳减排趋势图 -->
+            <div class="chart-container" style="height: 400px; margin-bottom: 30px;">
+                <h2 style="margin-bottom: 15px; color: var(--dark-color);">个人碳减排趋势</h2>
+                <canvas id="personalCarbonChart" style="width: 100%; height: 100%;"></canvas>
+            </div>
+            
+            <!-- 两列布局 -->
+            <div class="two-column-layout">
+                <!-- 左侧内容 -->
+                <div>
+                    <!-- 减碳行为分布图 -->
+                    <div class="chart-container" style="height: 300px; margin-bottom: 30px;">
+                        <h2 style="margin-bottom: 15px; color: var(--dark-color);">减碳行为分布</h2>
+                        <canvas id="carbonBehaviorChart" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                    
+                    <!-- 最近环保行为记录 -->
+                    <div class="card">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">最近环保行为记录</h2>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                                    <th style="padding: 10px 5px;">日期</th>
+                                    <th style="padding: 10px 5px;">环保行为</th>
+                                    <th style="padding: 10px 5px;">减碳量(kg)</th>
+                                    <th style="padding: 10px 5px;">获得积分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-15</td>
+                                    <td style="padding: 10px 5px;">步行上班</td>
+                                    <td style="padding: 10px 5px;">1.2</td>
+                                    <td style="padding: 10px 5px;">25</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-14</td>
+                                    <td style="padding: 10px 5px;">可回收垃圾分类</td>
+                                    <td style="padding: 10px 5px;">0.8</td>
+                                    <td style="padding: 10px 5px;">15</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-12</td>
+                                    <td style="padding: 10px 5px;">自带购物袋</td>
+                                    <td style="padding: 10px 5px;">0.5</td>
+                                    <td style="padding: 10px 5px;">10</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-11</td>
+                                    <td style="padding: 10px 5px;">使用公共交通</td>
+                                    <td style="padding: 10px 5px;">2.5</td>
+                                    <td style="padding: 10px 5px;">30</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-10</td>
+                                    <td style="padding: 10px 5px;">参加社区植树</td>
+                                    <td style="padding: 10px 5px;">5.0</td>
+                                    <td style="padding: 10px 5px;">100</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <a href="record.html" class="btn btn-secondary">查看更多记录</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧内容 -->
+                <div>
+                    <!-- 个人与社区平均值对比 -->
+                    <div class="chart-container" style="height: 300px; margin-bottom: 30px;">
+                        <h2 style="margin-bottom: 15px; color: var(--dark-color);">个人与社区碳减排对比</h2>
+                        <canvas id="comparisonChart" style="width: 100%; height: 100%;"></canvas>
+                    </div>
+                    
+                    <!-- 积分兑换记录 -->
+                    <div class="card">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">积分兑换记录</h2>
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="border-bottom: 1px solid var(--border-color); text-align: left;">
+                                    <th style="padding: 10px 5px;">日期</th>
+                                    <th style="padding: 10px 5px;">兑换项目</th>
+                                    <th style="padding: 10px 5px;">消耗积分</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-04-08</td>
+                                    <td style="padding: 10px 5px;">星巴克券</td>
+                                    <td style="padding: 10px 5px;">200</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-03-25</td>
+                                    <td style="padding: 10px 5px;">电影票</td>
+                                    <td style="padding: 10px 5px;">350</td>
+                                </tr>
+                                <tr style="border-bottom: 1px solid var(--border-color);">
+                                    <td style="padding: 10px 5px;">2025-03-12</td>
+                                    <td style="padding: 10px 5px;">环保水杯</td>
+                                    <td style="padding: 10px 5px;">150</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <a href="exchange.html" class="btn btn-secondary">查看更多记录</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 环保等级和徽章 -->
+                    <div class="card">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">环保等级与徽章</h2>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                            <div style="text-align: center;">
+                                <div style="width: 100px; height: 100px; border-radius: 50%; background-color: var(--light-color); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-seedling" style="font-size: 3rem; color: var(--primary-color);"></i>
+                                </div>
+                                <h3 style="margin-top: 10px;">绿色先锋</h3>
+                                <div style="margin-top: 5px; color: var(--text-light);">当前等级</div>
+                            </div>
+                            <div>
+                                <div style="height: 20px; width: 200px; background-color: var(--border-color); border-radius: 10px; overflow: hidden;">
+                                    <div style="height: 100%; width: 65%; background-color: var(--primary-color);"></div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 5px;">
+                                    <span>1,250 / 2,000</span>
+                                    <span>距离下一等级</span>
+                                </div>
+                            </div>
+                        </div>
+                        <h3 style="margin-bottom: 15px;">已获得徽章</h3>
+                        <div style="display: flex; flex-wrap: wrap; gap: 15px;">
+                            <div style="text-align: center; width: 80px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--light-color); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-walking" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                                </div>
+                                <div style="margin-top: 5px; font-size: 0.8rem;">步行达人</div>
+                            </div>
+                            <div style="text-align: center; width: 80px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--light-color); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-recycle" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                                </div>
+                                <div style="margin-top: 5px; font-size: 0.8rem;">回收能手</div>
+                            </div>
+                            <div style="text-align: center; width: 80px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--light-color); display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-bus" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                                </div>
+                                <div style="margin-top: 5px; font-size: 0.8rem;">公交爱好者</div>
+                            </div>
+                            <div style="text-align: center; width: 80px;">
+                                <div style="width: 60px; height: 60px; border-radius: 50%; background-color: var(--light-color); opacity: 0.5; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                                    <i class="fas fa-lightbulb" style="font-size: 1.5rem; color: var(--text-light);"></i>
+                                </div>
+                                <div style="margin-top: 5px; font-size: 0.8rem;">节能大师</div>
+                            </div>
+                        </div>
+                        <div style="text-align: center; margin-top: 15px;">
+                            <a href="#" class="btn btn-secondary">查看全部徽章</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+        <!-- 添加联系方式信息 -->
+        <div class="container" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; font-size: 0.9rem; color: var(--text-light);">
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-phone"></i> 联系电话：15283675384
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-envelope"></i> 邮箱：b111814@qq.com
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-map-marker-alt"></i> 地址：四川省xx市涪城区
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 等待DOM和CSS完全加载后初始化图表
+        window.addEventListener('load', function() {
+            // 个人碳减排趋势图
+            const personalCtx = document.getElementById('personalCarbonChart').getContext('2d');
+            if(!personalCtx) {
+                console.error('找不到个人碳减排趋势图canvas元素');
+                return;
+            }
+            
+            const personalCarbonChart = new Chart(personalCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    datasets: [{
+                        label: '个人碳减排量 (kg)',
+                        data: [35, 42, 49, 58, 65, 75, 82, 90, 95, 102, 108, 116],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '碳减排量 (kg)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '月份'
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // 减碳行为分布图
+            const behaviorCtx = document.getElementById('carbonBehaviorChart').getContext('2d');
+            if(!behaviorCtx) {
+                console.error('找不到减碳行为分布图canvas元素');
+                return;
+            }
+            
+            const carbonBehaviorChart = new Chart(behaviorCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['步行/骑行', '公共交通', '垃圾分类', '节水节电', '低碳饮食', '其他'],
+                    datasets: [{
+                        data: [35, 25, 15, 10, 10, 5],
+                        backgroundColor: [
+                            '#4CAF50', 
+                            '#8BC34A', 
+                            '#CDDC39', 
+                            '#FFEB3B', 
+                            '#FFC107', 
+                            '#FF9800'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    }
+                }
+            });
+            
+            // 个人与社区碳减排对比图
+            const comparisonCtx = document.getElementById('comparisonChart').getContext('2d');
+            if(!comparisonCtx) {
+                console.error('找不到个人与社区碳减排对比图canvas元素');
+                return;
+            }
+            
+            const comparisonChart = new Chart(comparisonCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月'],
+                    datasets: [
+                        {
+                            label: '个人碳减排',
+                            data: [35, 42, 49, 58],
+                            backgroundColor: '#4CAF50',
+                        },
+                        {
+                            label: '社区平均',
+                            data: [28, 32, 36, 42],
+                            backgroundColor: '#8BC34A',
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '碳减排量 (kg)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 确保图表渲染完成
+            setTimeout(() => {
+                try {
+                    personalCarbonChart.update();
+                    carbonBehaviorChart.update();
+                    comparisonChart.update();
+                    console.log('所有图表已渲染和更新完成');
+                } catch(e) {
+                    console.error('图表更新失败:', e);
+                }
+            }, 500);
+        });
+        
+        // 也在DOMContentLoaded时尝试初始化图表，确保两种方式都有机会执行
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM已加载，准备初始化图表...');
+        });
+    </script>
+</body>
+</html>

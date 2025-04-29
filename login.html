@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录/注册 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 登录/注册页面特有样式 */
+        .auth-container {
+            max-width: 500px;
+            margin: 30px auto;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .auth-header h1 {
+            color: var(--primary-color);
+            font-size: 2rem;
+        }
+        
+        .auth-card {
+            padding: 30px;
+        }
+        
+        .auth-form {
+            margin-bottom: 20px;
+        }
+        
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--text-light);
+        }
+        
+        .auth-switch a {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        
+        #register-form {
+            display: none;
+        }
+        
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .welcome-message p {
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html" class="active">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <div class="main-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="welcome-message">
+                    <h2>欢迎加入绿色社区</h2>
+                    <p>登录或注册账号，开始你的低碳生活</p>
+                </div>
+                
+                <!-- 登录表单 -->
+                <div class="card auth-card">
+                    <form id="login-form" class="auth-form">
+                        <h3 style="margin-bottom: 20px; text-align: center;">用户登录</h3>
+                        
+                        <div class="form-group">
+                            <label for="login-username" class="form-label">用户名</label>
+                            <input type="text" id="login-username" class="form-input" placeholder="请输入用户名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="login-password" class="form-label">密码</label>
+                            <input type="password" id="login-password" class="form-input" placeholder="请输入密码" required>
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">登录</button>
+                        </div>
+                        
+                        <div class="auth-switch">
+                            <span>还没有账号？</span>
+                            <a href="#" id="switch-to-register">立即注册</a>
+                        </div>
+                    </form>
+                    
+                    <!-- 注册表单 -->
+                    <form id="register-form" class="auth-form">
+                        <h3 style="margin-bottom: 20px; text-align: center;">新用户注册</h3>
+                        
+                        <div class="form-group">
+                            <label for="register-username" class="form-label">用户名</label>
+                            <input type="text" id="register-username" class="form-input" placeholder="请设置用户名" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-password" class="form-label">密码</label>
+                            <input type="password" id="register-password" class="form-input" placeholder="请设置密码" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="register-community" class="form-label">所属社区</label>
+                            <select id="register-community" class="form-input" required>
+                                <option value="">请选择社区</option>
+                                <option value="阳光社区">阳光社区</option>
+                                <option value="绿树社区">绿树社区</option>
+                                <option value="和谐花园">和谐花园</option>
+                                <option value="康泰小区">康泰小区</option>
+                                <option value="宜居公寓">宜居公寓</option>
+                            </select>
+                        </div>
+                        
+                        <div style="margin-top: 30px;">
+                            <button type="submit" class="btn btn-primary" style="width: 100%;">注册</button>
+                        </div>
+                        
+                        <div class="auth-switch">
+                            <span>已有账号？</span>
+                            <a href="#" id="switch-to-login">立即登录</a>
+                        </div>
+                    </form>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; color: var(--text-light);">
+                    <p>注册即表示您同意我们的<a href="#">服务条款</a>和<a href="#">隐私政策</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+</body>
+</html> 

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精选环保知识 - 低碳行动平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 精选知识页面特定样式 */
+        .featured-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .featured-item {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 25px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .featured-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .featured-item-image {
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .featured-item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .featured-item-content h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+        }
+        
+        .featured-item-content p {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .featured-item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+        
+        .featured-item-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .featured-item-tag {
+            padding: 4px 10px;
+            background-color: var(--light-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--primary-color);
+        }
+        
+        .featured-banner {
+            padding: 30px;
+            background-color: var(--primary-light);
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .featured-banner h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+        
+        .featured-banner p {
+            color: var(--text-color);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+        
+        .pagination-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            background-color: var(--light-color);
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .pagination-item:hover,
+        .pagination-item.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            .featured-item {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link active">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item"><a href="knowledge.html">环保知识库</a></div>
+                <div class="breadcrumb-item active">精选内容</div>
+            </div>
+            
+            <h1 class="page-title">精选环保知识</h1>
+            <p class="page-description">探索我们精心挑选的最优质环保知识内容，深入了解可持续发展理念。</p>
+            
+            <!-- 精选横幅 -->
+            <div class="featured-banner">
+                <h2>每周精选环保知识</h2>
+                <p>我们每周更新精选环保知识和实践指南，旨在帮助您将可持续理念融入日常生活，共同为保护地球环境作出贡献。</p>
+            </div>
+            
+            <!-- 精选文章列表 -->
+            <div class="featured-list">
+                <!-- 精选文章1 -->
+                <div class="featured-item">
+                    <div class="featured-item-image">
+                        <img src="images/plastic-pollution.jpg" alt="塑料污染">
+                    </div>
+                    <div class="featured-item-content">
+                        <div class="featured-item-tags">
+                            <span class="featured-item-tag">海洋保护</span>
+                            <span class="featured-item-tag">塑料污染</span>
+                        </div>
+                        <h3>塑料污染：你应该知道的关键事实</h3>
+                        <p>塑料污染已成为全球环境面临的最严峻挑战之一。每年约有800万吨塑料进入海洋，相当于每分钟倾倒一辆垃圾车的塑料到海洋中。研究表明，如果我们不改变当前的消费模式，到2050年，海洋中的塑料重量将超过鱼类。</p>
+                        <a href="knowledge-detail.html?id=plastic-pollution" class="btn btn-primary">阅读全文</a>
+                        <div class="featured-item-meta">
+                            <span><i class="far fa-eye"></i> 8.5k 阅读</span>
+                            <span><i class="far fa-calendar"></i> 2024-04-12</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 精选文章2 -->
+                <div class="featured-item">
+                    <div class="featured-item-image">
+                        <img src="images/renewable-energy.jpg" alt="可再生能源">
+                    </div>
+                    <div class="featured-item-content">
+                        <div class="featured-item-tags">
+                            <span class="featured-item-tag">能源转型</span>
+                            <span class="featured-item-tag">可再生能源</span>
+                        </div>
+                        <h3>可再生能源发展：趋势与挑战</h3>
+                        <p>随着气候变化的加速，全球能源结构正在经历前所未有的转型。可再生能源正以惊人的速度发展，太阳能和风能成本持续下降，效率不断提高。本文将探讨可再生能源发展的最新趋势、面临的挑战以及普通家庭如何参与能源转型。</p>
+                        <a href="knowledge-detail.html?id=renewable-energy" class="btn btn-primary">阅读全文</a>
+                        <div class="featured-item-meta">
+                            <span><i class="far fa-eye"></i> 6.2k 阅读</span>
+                            <span><i class="far fa-calendar"></i> 2024-03-28</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 精选文章3 -->
+                <div class="featured-item">
+                    <div class="featured-item-image">
+                        <img src="images/sustainable-fashion.jpg" alt="可持续时尚">
+                    </div>
+                    <div class="featured-item-content">
+                        <div class="featured-item-tags">
+                            <span class="featured-item-tag">可持续时尚</span>
+                            <span class="featured-item-tag">生活方式</span>
+                        </div>
+                        <h3>可持续时尚：重新定义我们的衣橱</h3>
+                        <p>时尚产业是全球第二大污染行业，仅次于石油行业。快时尚的兴起导致服装消费量激增，而大部分服装在短时间内就被丢弃。本文介绍如何打造可持续衣橱，包括选择环保材质、延长服装使用寿命、支持道德品牌等实用建议。</p>
+                        <a href="knowledge-detail.html?id=sustainable-fashion" class="btn btn-primary">阅读全文</a>
+                        <div class="featured-item-meta">
+                            <span><i class="far fa-eye"></i> 5.4k 阅读</span>
+                            <span><i class="far fa-calendar"></i> 2024-04-05</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 精选文章4 -->
+                <div class="featured-item">
+                    <div class="featured-item-image">
+                        <img src="images/biodiversity.jpg" alt="生物多样性">
+                    </div>
+                    <div class="featured-item-content">
+                        <div class="featured-item-tags">
+                            <span class="featured-item-tag">生物多样性</span>
+                            <span class="featured-item-tag">生态保护</span>
+                        </div>
+                        <h3>生物多样性危机：为什么应该关注？</h3>
+                        <p>地球正在经历第六次生物大灭绝，物种消失的速度是自然背景灭绝率的100-1000倍。本文将探讨生物多样性为何如此重要，当前面临的威胁，以及我们如何在日常生活中为保护生物多样性做出贡献。</p>
+                        <a href="knowledge-detail.html?id=biodiversity" class="btn btn-primary">阅读全文</a>
+                        <div class="featured-item-meta">
+                            <span><i class="far fa-eye"></i> 4.8k 阅读</span>
+                            <span><i class="far fa-calendar"></i> 2024-02-20</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 精选文章5 -->
+                <div class="featured-item">
+                    <div class="featured-item-image">
+                        <img src="images/food-waste.jpg" alt="食物浪费">
+                    </div>
+                    <div class="featured-item-content">
+                        <div class="featured-item-tags">
+                            <span class="featured-item-tag">食物浪费</span>
+                            <span class="featured-item-tag">可持续饮食</span>
+                        </div>
+                        <h3>食物浪费与气候变化：被忽视的联系</h3>
+                        <p>全球约三分之一的食物被浪费，如果食物浪费是一个国家，它将是仅次于中国和美国的第三大温室气体排放国。本文揭示食物浪费与气候变化之间的联系，并提供实用的减少家庭食物浪费的方法。</p>
+                        <a href="knowledge-detail.html?id=food-waste" class="btn btn-primary">阅读全文</a>
+                        <div class="featured-item-meta">
+                            <span><i class="far fa-eye"></i> 3.9k 阅读</span>
+                            <span><i class="far fa-calendar"></i> 2024-03-15</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分页 -->
+            <div class="pagination">
+                <a href="#" class="pagination-item active">1</a>
+                <a href="#" class="pagination-item">2</a>
+                <a href="#" class="pagination-item">3</a>
+                <a href="#" class="pagination-item"><i class="fas fa-chevron-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h4>关于我们</h4>
+                <p>低碳行动平台致力于推动个人和社区的低碳生活方式，共同应对气候变化。</p>
+            </div>
+            <div class="footer-section">
+                <h4>联系方式</h4>
+                <p>邮箱：b111814@qq.com</p>
+                <p>电话：15283675384</p>
+            </div>
+            <div class="footer-section">
+                <h4>关注我们</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 低碳行动平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分页功能
+            const paginationItems = document.querySelectorAll('.pagination-item');
+            paginationItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有按钮的active类
+                    paginationItems.forEach(btn => btn.classList.remove('active'));
+                    // 添加active类到当前点击的按钮
+                    this.classList.add('active');
+                    
+                    // 页面切换逻辑
+                    // 这里只是演示界面交互
+                    if (this.textContent !== '1') {
+                        alert('切换到第 ' + this.textContent + ' 页');
+                    }
+                });
+            });
+            
+            // 文章点击事件
+            const readMoreBtns = document.querySelectorAll('.featured-item-content .btn-primary');
+            readMoreBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    window.location.href = href;
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

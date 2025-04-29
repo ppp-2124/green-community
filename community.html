@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区互动 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保活动、知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link active">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item active">社区互动</div>
+            </div>
+            
+            <!-- 社区动态标签页选择 -->
+            <div class="tabs" style="margin-bottom: 20px;">
+                <span class="tab active">社区动态</span>
+                <span class="tab">环保话题</span>
+                <span class="tab">环保成果</span>
+                <span class="tab">低碳达人</span>
+            </div>
+            
+            <!-- 社区功能栏 -->
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <select class="form-input" style="width: auto;">
+                        <option>最新动态</option>
+                        <option>热门动态</option>
+                        <option>我关注的</option>
+                        <option>官方动态</option>
+                    </select>
+                </div>
+                <div>
+                    <button class="btn btn-primary" title="发布动态">
+                        <i class="fas fa-edit"></i> 发布动态
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 社区动态内容 -->
+            <div class="tab-content">
+                <!-- 发布框 -->
+                <div class="card" style="margin-bottom: 20px; padding: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; flex-shrink: 0;">
+                            <img src="images/user-default-avatar.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1;">
+                            <textarea class="form-input" placeholder="分享您的环保心得..." style="width: 100%; min-height: 100px; margin-bottom: 10px; resize: none;" id="post-textarea"></textarea>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div>
+                                    <button class="btn btn-secondary" style="margin-right: 10px; padding: 8px 12px;">
+                                        <i class="fas fa-camera"></i> 添加图片
+                                    </button>
+                                    <button class="btn btn-secondary" style="padding: 8px 12px;">
+                                        <i class="fas fa-map-marker-alt"></i> 添加位置
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary">发布</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 社区动态列表 -->
+                <div class="card" style="margin-bottom: 20px; padding: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; flex-shrink: 0;">
+                            <img src="images/banner.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <span style="font-weight: bold; color: var(--dark-color);">张绿色</span>
+                                    <span style="color: var(--text-light); font-size: 0.9rem;"> · 2小时前</span>
+                                </div>
+                                <div style="color: var(--text-light);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <p>今天参加了社区组织的垃圾分类活动，学习了很多垃圾分类的知识，原来我们平时随手扔的垃圾会对环境造成这么大的影响。从今天起，我要认真做好垃圾分类，为环保贡献自己的力量！</p>
+                            </div>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;">
+                                <div style="aspect-ratio: 1; background-color: var(--light-color); border-radius: 8px; overflow: hidden;">
+                                    <img src="images/community1.jpg" alt="活动照片" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div style="aspect-ratio: 1; background-color: var(--light-color); border-radius: 8px; overflow: hidden;">
+                                    <img src="images/community2.jpg" alt="活动照片" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                                <div style="aspect-ratio: 1; background-color: var(--light-color); border-radius: 8px; overflow: hidden;">
+                                    <img src="images/community3.jpg" alt="活动照片" style="width: 100%; height: 100%; object-fit: cover;">
+                                </div>
+                            </div>
+                            <div style="display: flex; color: var(--text-light); font-size: 0.9rem;">
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-thumbs-up"></i> 32
+                                </div>
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-comment"></i> 8
+                                </div>
+                                <div>
+                                    <i class="far fa-share-square"></i> 分享
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px; padding: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; flex-shrink: 0;">
+                            <img src="images/user1.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <span style="font-weight: bold; color: var(--dark-color);">李环保</span>
+                                    <span style="color: var(--text-light); font-size: 0.9rem;"> · 5小时前</span>
+                                </div>
+                                <div style="color: var(--text-light);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <p>分享一个小窍门：使用废弃的塑料瓶自制简易花盆，不仅可以减少塑料污染，还能美化家居环境。只需要将塑料瓶切开，在底部钻几个小孔用于排水，然后放入土壤和种子，就可以开始您的家庭种植计划了！</p>
+                            </div>
+                            <div style="aspect-ratio: 16/9; background-color: var(--light-color); border-radius: 8px; overflow: hidden; margin-bottom: 15px;">
+                                <img src="images/community4.jpg" alt="环保窍门" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="display: flex; color: var(--text-light); font-size: 0.9rem;">
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-thumbs-up"></i> 56
+                                </div>
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-comment"></i> 15
+                                </div>
+                                <div>
+                                    <i class="far fa-share-square"></i> 分享
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-bottom: 20px; padding: 20px;">
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; flex-shrink: 0; display: flex; justify-content: center; align-items: center;">
+                            <i class="fas fa-leaf" style="font-size: 1.5rem; color: var(--primary-color);"></i>
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <span style="font-weight: bold; color: var(--dark-color);">绿色社区官方</span>
+                                    <span style="color: var(--text-light); font-size: 0.9rem;"> · 1天前</span>
+                                </div>
+                                <div style="color: var(--text-light);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <p>【社区公告】我们很高兴地宣布，本月的环保之星评选结果已经出炉！恭喜王晓明、张绿色和李环保三位用户获得"环保之星"称号，每人将获得500积分奖励和环保礼包一份。感谢所有参与环保活动的社区成员，让我们继续为绿色环保贡献力量！</p>
+                            </div>
+                            <div style="background-color: var(--light-color); border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+                                <h3 style="margin-bottom: 10px; color: var(--primary-color);">四月环保之星</h3>
+                                <div style="display: flex; gap: 15px;">
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background-color: white; margin: 0 auto 5px; overflow: hidden;">
+                                            <img src="images/user2.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                        <div>王晓明</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background-color: white; margin: 0 auto 5px; overflow: hidden;">
+                                            <img src="images/user3.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                        <div>张绿色</div>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <div style="width: 60px; height: 60px; border-radius: 50%; background-color: white; margin: 0 auto 5px; overflow: hidden;">
+                                            <img src="images/user4.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                                        </div>
+                                        <div>李环保</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex; color: var(--text-light); font-size: 0.9rem;">
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-thumbs-up"></i> 128
+                                </div>
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-comment"></i> 24
+                                </div>
+                                <div>
+                                    <i class="far fa-share-square"></i> 分享
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+                    <button class="btn btn-secondary">加载更多</button>
+                </div>
+            </div>
+            
+            <!-- 热门话题 -->
+            <div style="margin-top: 30px;">
+                <h2 style="margin-bottom: 20px; color: var(--dark-color);">热门环保话题</h2>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 20px;">
+                    <a href="#" style="display: block; padding: 10px 15px; background-color: var(--light-color); border-radius: 20px; color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">
+                        #垃圾分类挑战# (1256)
+                    </a>
+                    <a href="#" style="display: block; padding: 10px 15px; background-color: var(--light-color); border-radius: 20px; color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">
+                        #废物利用创意# (892)
+                    </a>
+                    <a href="#" style="display: block; padding: 10px 15px; background-color: var(--light-color); border-radius: 20px; color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">
+                        #无塑生活一周# (768)
+                    </a>
+                    <a href="#" style="display: block; padding: 10px 15px; background-color: var(--light-color); border-radius: 20px; color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">
+                        #节水小窍门# (624)
+                    </a>
+                    <a href="#" style="display: block; padding: 10px 15px; background-color: var(--light-color); border-radius: 20px; color: var(--primary-color); text-decoration: none; font-size: 0.9rem;">
+                        #低碳出行日记# (512)
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 推荐关注 -->
+            <div class="card" style="margin-top: 30px;">
+                <h2 style="margin-bottom: 20px; padding: 20px 20px 0; color: var(--dark-color);">推荐关注</h2>
+                <div style="display: flex; flex-direction: column;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; margin-right: 10px;">
+                                <img src="images/user5.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <div style="font-weight: bold;">环保达人小王</div>
+                                <div style="color: var(--text-light); font-size: 0.8rem;">废物利用爱好者，已发布45篇环保内容</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 5px 15px;">关注</button>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; border-bottom: 1px solid var(--border-color);">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; margin-right: 10px;">
+                                <img src="images/user6.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div>
+                                <div style="font-weight: bold;">城市园丁</div>
+                                <div style="color: var(--text-light); font-size: 0.8rem;">社区植树志愿者，已组织12次环保活动</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 5px 15px;">关注</button>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px 20px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; margin-right: 10px; display: flex; justify-content: center; align-items: center;">
+                                <i class="fas fa-recycle" style="font-size: 1.2rem; color: var(--primary-color);"></i>
+                            </div>
+                            <div>
+                                <div style="font-weight: bold;">绿色出行联盟</div>
+                                <div style="color: var(--text-light); font-size: 0.8rem;">倡导低碳出行，已有5600名成员</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="padding: 5px 15px;">关注</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+        <!-- 添加联系方式信息 -->
+        <div class="container" style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; font-size: 0.9rem; color: var(--text-light);">
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-phone"></i> 联系电话：15283675384
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-envelope"></i> 邮箱：b111814@qq.com
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <i class="fas fa-map-marker-alt"></i> 地址：四川省xx市涪城区
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 切换标签页功能
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // 移除所有active类
+                    tabs.forEach(t => t.classList.remove('active'));
+                    // 隐藏所有选项卡内容
+                    tabContents.forEach(content => content.style.display = 'none');
+                    
+                    // 激活当前点击的选项卡
+                    this.classList.add('active');
+                    // 显示对应的选项卡内容
+                });
+            });
+            
+            // 发布动态功能
+            const postBtn = document.querySelector('.card .btn-primary');
+            const postTextarea = document.querySelector('.form-input');
+            const postsContainer = document.querySelector('.tab-content');
+            
+            // 用于存储选择的图片
+            let selectedImages = [];
+            
+            // 添加图片按钮点击事件
+            const addImageBtn = document.querySelector('.btn-secondary:nth-child(1)');
+            addImageBtn.addEventListener('click', function() {
+                // 创建一个文件输入元素
+                const fileInput = document.createElement('input');
+                fileInput.type = 'file';
+                fileInput.accept = 'image/*';
+                fileInput.multiple = true;
+                
+                // 点击文件输入元素
+                fileInput.click();
+                
+                // 监听文件选择变化
+                fileInput.addEventListener('change', function(e) {
+                    const files = e.target.files;
+                    if (!files || files.length === 0) return;
+                    
+                    // 遍历选择的文件
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        // 确保文件是图片
+                        if (!file.type.startsWith('image/')) continue;
+                        
+                        // 创建FileReader读取文件
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            // 创建预览容器
+                            if (!document.getElementById('image-preview-container')) {
+                                const previewContainer = document.createElement('div');
+                                previewContainer.id = 'image-preview-container';
+                                previewContainer.style.display = 'grid';
+                                previewContainer.style.gridTemplateColumns = 'repeat(3, 1fr)';
+                                previewContainer.style.gap = '10px';
+                                previewContainer.style.marginTop = '10px';
+                                
+                                // 将预览容器添加到文本区域下方
+                                postTextarea.parentNode.insertBefore(previewContainer, postTextarea.nextSibling);
+                            }
+                            
+                            // 创建预览图片
+                            const imgPreview = document.createElement('div');
+                            imgPreview.style.position = 'relative';
+                            imgPreview.style.aspectRatio = '1';
+                            imgPreview.style.backgroundColor = 'var(--light-color)';
+                            imgPreview.style.borderRadius = '8px';
+                            imgPreview.style.overflow = 'hidden';
+                            
+                            const img = document.createElement('img');
+                            img.src = event.target.result;
+                            img.style.width = '100%';
+                            img.style.height = '100%';
+                            img.style.objectFit = 'cover';
+                            
+                            // 添加删除按钮
+                            const deleteBtn = document.createElement('button');
+                            deleteBtn.innerHTML = '<i class="fas fa-times"></i>';
+                            deleteBtn.style.position = 'absolute';
+                            deleteBtn.style.top = '5px';
+                            deleteBtn.style.right = '5px';
+                            deleteBtn.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+                            deleteBtn.style.color = 'white';
+                            deleteBtn.style.border = 'none';
+                            deleteBtn.style.borderRadius = '50%';
+                            deleteBtn.style.width = '24px';
+                            deleteBtn.style.height = '24px';
+                            deleteBtn.style.display = 'flex';
+                            deleteBtn.style.alignItems = 'center';
+                            deleteBtn.style.justifyContent = 'center';
+                            deleteBtn.style.cursor = 'pointer';
+                            
+                            // 点击删除按钮移除预览图片
+                            deleteBtn.addEventListener('click', function() {
+                                // 从选择的图片数组中移除
+                                const index = selectedImages.indexOf(event.target.result);
+                                if (index > -1) {
+                                    selectedImages.splice(index, 1);
+                                }
+                                // 从DOM中移除预览
+                                imgPreview.remove();
+                                
+                                // 如果没有图片了，移除预览容器
+                                const previewContainer = document.getElementById('image-preview-container');
+                                if (previewContainer && previewContainer.children.length === 0) {
+                                    previewContainer.remove();
+                                }
+                            });
+                            
+                            imgPreview.appendChild(img);
+                            imgPreview.appendChild(deleteBtn);
+                            document.getElementById('image-preview-container').appendChild(imgPreview);
+                            
+                            // 保存图片数据到数组
+                            selectedImages.push(event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            });
+            
+            postBtn.addEventListener('click', function() {
+                if (!postTextarea.value.trim() && selectedImages.length === 0) {
+                    alert('请输入动态内容或添加图片');
+                    return;
+                }
+                
+                // 创建新动态DOM元素
+                const newPost = document.createElement('div');
+                newPost.className = 'card';
+                newPost.style.marginBottom = '20px';
+                newPost.style.padding = '20px';
+                
+                // 获取当前时间
+                const now = new Date();
+                const timeString = '刚刚';
+                
+                // 准备图片HTML
+                let imagesHTML = '';
+                if (selectedImages.length > 0) {
+                    imagesHTML = `
+                        <div style="display: grid; grid-template-columns: repeat(${Math.min(selectedImages.length, 3)}, 1fr); gap: 10px; margin-bottom: 15px;">
+                    `;
+                    
+                    selectedImages.forEach(imgSrc => {
+                        imagesHTML += `
+                            <div style="aspect-ratio: 1; background-color: var(--light-color); border-radius: 8px; overflow: hidden;">
+                                <img src="${imgSrc}" alt="动态图片" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                        `;
+                    });
+                    
+                    imagesHTML += '</div>';
+                }
+                
+                // 设置动态内容HTML
+                newPost.innerHTML = `
+                    <div style="display: flex; gap: 15px;">
+                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: var(--light-color); overflow: hidden; flex-shrink: 0;">
+                            <img src="images/user-default-avatar.jpg" alt="用户头像" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <div style="flex: 1;">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                <div>
+                                    <span style="font-weight: bold; color: var(--dark-color);">我</span>
+                                    <span style="color: var(--text-light); font-size: 0.9rem;"> · ${timeString}</span>
+                                </div>
+                                <div style="color: var(--text-light);">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </div>
+                            </div>
+                            <div style="margin-bottom: 15px;">
+                                <p>${postTextarea.value}</p>
+                            </div>
+                            ${imagesHTML}
+                            <div style="display: flex; color: var(--text-light); font-size: 0.9rem;">
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-thumbs-up"></i> 0
+                                </div>
+                                <div style="margin-right: 20px;">
+                                    <i class="far fa-comment"></i> 0
+                                </div>
+                                <div>
+                                    <i class="far fa-share-square"></i> 分享
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // 添加新动态到列表顶部（第一个发布框之后）
+                const firstPost = postsContainer.querySelector('.card:nth-child(2)');
+                if (firstPost) {
+                    postsContainer.insertBefore(newPost, firstPost);
+                } else {
+                    postsContainer.appendChild(newPost);
+                }
+                
+                // 重置表单
+                postTextarea.value = '';
+                selectedImages = [];
+                
+                // 移除图片预览
+                const previewContainer = document.getElementById('image-preview-container');
+                if (previewContainer) {
+                    previewContainer.remove();
+                }
+                
+                // 给新添加的点赞按钮添加事件
+                const newLikeBtn = newPost.querySelector('.far.fa-thumbs-up');
+                if (newLikeBtn) {
+                    newLikeBtn.addEventListener('click', function() {
+                        const likeCount = this.parentNode.textContent.trim().split(' ')[1];
+                        let count = parseInt(likeCount);
+                        
+                        if (this.classList.contains('fas')) {
+                            // 取消点赞
+                            this.classList.remove('fas');
+                            this.classList.add('far');
+                            this.style.color = '';
+                            count--;
+                        } else {
+                            // 点赞
+                            this.classList.remove('far');
+                            this.classList.add('fas');
+                            this.style.color = '#e91e63';
+                            count++;
+                        }
+                        
+                        this.parentNode.textContent = '';
+                        this.parentNode.appendChild(this);
+                        this.parentNode.append(' ' + count);
+                    });
+                }
+                
+                // 显示成功提示
+                alert('发布成功！');
+            });
+            
+            // 修复：添加"发布动态"按钮功能
+            const publishDynamicBtn = document.querySelector('.btn-primary[title="发布动态"]');
+            if (publishDynamicBtn) {
+                publishDynamicBtn.addEventListener('click', function() {
+                    // 滚动到发布框，并聚焦文本区域
+                    const textarea = document.querySelector('.form-input');
+                    textarea.scrollIntoView({ behavior: 'smooth' });
+                    textarea.focus();
+                });
+            }
+            
+            // 键盘事件：按下Ctrl+Enter发布
+            const textarea = document.getElementById('post-textarea');
+            textarea.addEventListener('keydown', function(e) {
+                // 检测是否按下了Ctrl+Enter
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault(); // 阻止默认行为
+                    // 触发发布按钮的点击事件
+                    postBtn.click();
+                }
+            });
+            
+            // 添加位置按钮点击事件
+            const addLocationBtn = document.querySelector('.btn-secondary:nth-child(2)');
+            addLocationBtn.addEventListener('click', function() {
+                alert('位置添加功能即将上线，敬请期待！');
+            });
+            
+            // 关注按钮点击事件
+            const followBtns = document.querySelectorAll('.btn-primary[style="padding: 5px 15px;"]');
+            followBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.textContent === '关注') {
+                        this.textContent = '已关注';
+                        this.style.backgroundColor = '#6c757d';
+                        this.style.borderColor = '#6c757d';
+                        alert('关注成功！');
+                    } else {
+                        this.textContent = '关注';
+                        this.style.backgroundColor = '';
+                        this.style.borderColor = '';
+                        alert('已取消关注');
+                    }
+                });
+            });
+            
+            // 搜索按钮点击事件
+            const searchBtn = document.querySelector('.search-button');
+            const searchInput = document.querySelector('.search-input');
+            
+            searchBtn.addEventListener('click', function() {
+                const searchTerm = searchInput.value.trim();
+                if (searchTerm) {
+                    alert(`正在搜索: ${searchTerm}`);
+                    // 实际应用中这里会执行搜索逻辑
+                } else {
+                    alert('请输入搜索内容');
+                }
+            });
+            
+            // 点赞功能
+            const likeButtons = document.querySelectorAll('.far.fa-thumbs-up');
+            likeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const likeCount = this.parentNode.textContent.trim().split(' ')[1];
+                    let count = parseInt(likeCount);
+                    
+                    if (this.classList.contains('fas')) {
+                        // 取消点赞
+                        this.classList.remove('fas');
+                        this.classList.add('far');
+                        count--;
+                    } else {
+                        // 点赞
+                        this.classList.remove('far');
+                        this.classList.add('fas');
+                        this.style.color = '#e91e63';
+                        count++;
+                    }
+                    
+                    this.parentNode.textContent = '';
+                    this.parentNode.appendChild(this);
+                    this.parentNode.append(' ' + count);
+                });
+            });
+            
+            // 评论按钮点击事件
+            const commentButtons = document.querySelectorAll('.far.fa-comment');
+            commentButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('评论功能即将上线，敬请期待！');
+                });
+            });
+            
+            // 分享按钮点击事件
+            const shareButtons = document.querySelectorAll('.far.fa-share-square');
+            shareButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    alert('分享功能即将上线，敬请期待！');
+                });
+            });
+            
+            // 加载更多按钮点击事件
+            const loadMoreBtn = document.querySelector('.btn-secondary:last-child');
+            loadMoreBtn.addEventListener('click', function() {
+                alert('正在加载更多内容，请稍候...');
+                setTimeout(() => {
+                    alert('已显示全部内容');
+                }, 1000);
+            });
+        });
+    </script>
+</body>
+</html>

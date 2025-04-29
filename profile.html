@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 个人中心页面特有样式 */
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .profile-avatar:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-avatar img:hover {
+            transform: scale(1.08);
+        }
+        
+        .avatar-upload-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile-avatar:hover .avatar-upload-overlay {
+            opacity: 1;
+        }
+        
+        #avatar-upload {
+            display: none;
+        }
+        
+        .profile-avatar:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+            pointer-events: none;
+        }
+        
+        .profile-avatar i {
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .profile-info {
+            flex-grow: 1;
+        }
+        
+        .profile-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .profile-community {
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .profile-stat {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+        }
+        
+        .profile-stat i {
+            margin-right: 5px;
+            color: var(--primary-color);
+        }
+        
+        .profile-actions {
+            margin-left: auto;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1rem;
+            border-bottom: 2px solid var(--border-color);
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            border-bottom: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .achievement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: var(--light-color);
+        }
+        
+        .achievement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .achievement-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .achievement-info {
+            flex-grow: 1;
+        }
+        
+        .achievement-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .coupon {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            background-color: white;
+            border: 1px dashed var(--border-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coupon:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 10px;
+            background-color: var(--primary-color);
+        }
+        
+        .coupon-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+            margin-left: 10px;
+        }
+        
+        .coupon-info {
+            flex-grow: 1;
+        }
+        
+        .coupon-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .coupon-detail {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+        
+        .coupon-code {
+            font-family: monospace;
+            background-color: #f5f5f5;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.9rem;
+        }
+        
+        .coupon-status {
+            margin-left: auto;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .coupon-status.valid {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+        
+        .coupon-status.used {
+            background-color: rgba(158, 158, 158, 0.1);
+            color: var(--text-light);
+        }
+        
+        .activity-item {
+            display: flex;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .activity-icon {
+            margin-right: 15px;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+        }
+        
+        .activity-info {
+            flex-grow: 1;
+        }
+        
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .activity-time {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .activity-points {
+            margin-left: auto;
+            font-weight: bold;
+        }
+        
+        .activity-points.positive {
+            color: var(--success-color);
+        }
+        
+        .activity-points.negative {
+            color: var(--text-light);
+        }
+        
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .profile-avatar {
+                margin-right: 0;
+                margin-bottom: 15px;
+                width: 120px;
+                height: 120px;
+                border-width: 4px;
+            }
+            
+            .profile-actions {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html" class="active"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 主要内容区 -->
+    <div class="main-content">
+        <div class="container">
+            <!-- 个人信息卡片 -->
+            <div class="card">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="avatar-container">
+                        <img src="images/user-default-avatar.jpg" alt="用户头像" class="img-fluid" id="user-avatar">
+                        <div class="avatar-upload-overlay">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <input type="file" id="avatar-upload" accept="image/*">
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-name" id="username">未登录</div>
+                        <div class="profile-community" id="user-community">-</div>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <i class="fas fa-leaf"></i>
+                                <span id="user-points">0</span> 积分
+                            </div>
+                            <div class="profile-stat">
+                                <i class="fas fa-seedling"></i>
+                                <span>0.5</span> kg减碳量
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-primary" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i> 退出登录
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 统计卡片 -->
+            <div class="stats-container">
+                <div class="card stat-card">
+                    <div class="stat-label">环保行为</div>
+                    <div class="stat-value">12</div>
+                    <div>次记录</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-label">积分兑换</div>
+                    <div class="stat-value">3</div>
+                    <div>次兑换</div>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-label">社区排名</div>
+                    <div class="stat-value">15</div>
+                    <div>位</div>
+                </div>
+            </div>
+            
+            <!-- 选项卡 -->
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="activity">活动记录</button>
+                <button class="tab-btn" data-tab="achievement">我的成就</button>
+                <button class="tab-btn" data-tab="coupon">我的优惠券</button>
+            </div>
+            
+            <!-- 活动记录选项卡内容 -->
+            <div class="tab-content active" id="activity-tab">
+                <div class="card" style="padding: 20px;">
+                    <h3 style="margin-bottom: 20px;">活动记录</h3>
+                    <div id="activity-history">
+                        <!-- 活动记录将通过JavaScript动态添加 -->
+                        <p style="text-align: center; color: var(--text-light);">暂无记录</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 我的成就选项卡内容 -->
+            <div class="tab-content" id="achievement-tab">
+                <div class="card" style="padding: 20px;">
+                    <h3 style="margin-bottom: 20px;">我的成就</h3>
+                    
+                    <!-- 解锁的成就 -->
+                    <div class="achievement">
+                        <div class="achievement-icon">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">环保新手</div>
+                            <div class="achievement-description">完成第一次环保活动记录</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement">
+                        <div class="achievement-icon">
+                            <i class="fas fa-walking"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">健步如飞</div>
+                            <div class="achievement-description">累计记录超过100,000步</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 未解锁的成就 -->
+                    <div class="achievement" style="opacity: 0.5;">
+                        <div class="achievement-icon" style="background-color: var(--text-light);">
+                            <i class="fas fa-recycle"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">垃圾分类达人</div>
+                            <div class="achievement-description">完成30次垃圾分类记录</div>
+                        </div>
+                    </div>
+                    
+                    <div class="achievement" style="opacity: 0.5;">
+                        <div class="achievement-icon" style="background-color: var(--text-light);">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="achievement-info">
+                            <div class="achievement-title">社区冠军</div>
+                            <div class="achievement-description">在社区排行榜中排名第一</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 我的优惠券选项卡内容 -->
+            <div class="tab-content" id="coupon-tab">
+                <div class="card" style="padding: 20px;">
+                    <h3 style="margin-bottom: 20px;">我的优惠券</h3>
+                    
+                    <div id="coupon-container">
+                        <!-- 有效的优惠券 -->
+                        <div class="coupon">
+                            <div class="coupon-icon">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <div class="coupon-info">
+                                <div class="coupon-title">星星克咖啡券</div>
+                                <div class="coupon-detail">可兑换任意一杯中杯手工调制饮品，全国门店通用。</div>
+                                <div class="coupon-detail">有效期至：2025年6月30日</div>
+                                <div class="coupon-code">SB20250515001</div>
+                            </div>
+                            <div class="coupon-status valid">可使用</div>
+                        </div>
+                        
+                        <!-- 已使用的优惠券 -->
+                        <div class="coupon">
+                            <div class="coupon-icon">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <div class="coupon-info">
+                                <div class="coupon-title">电影票8折券</div>
+                                <div class="coupon-detail">玩达影城电影票8折优惠券，周一至周四可用，节假日除外。</div>
+                                <div class="coupon-detail">有效期至：2025年5月15日</div>
+                                <div class="coupon-code">WD20250410002</div>
+                            </div>
+                            <div class="coupon-status used">已使用</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 环保建议 -->
+            <div class="card" style="padding: 20px; margin-top: 30px;">
+                <h3 style="margin-bottom: 15px;">环保小贴士</h3>
+                <p style="margin-bottom: 10px;">根据您的活动记录，我们为您提供以下环保建议：</p>
+                <ul style="padding-left: 20px;">
+                    <li>尝试每周至少三天步行或骑自行车上班/上学，可减少约2.5kg的碳排放。</li>
+                    <li>使用可重复使用的购物袋，减少塑料袋使用。</li>
+                    <li>参与本周的"春季社区垃圾分类挑战赛"，有机会获得双倍积分。</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 标签页切换
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 切换按钮激活状态
+                    tabBtns.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 切换内容显示
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId + '-tab').classList.add('active');
+                });
+            });
+            
+            // 检查用户登录状态
+            const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+            
+            if (!userData.isLoggedIn) {
+                // 如果未登录，跳转到登录页
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 更新用户信息
+            document.getElementById('username').textContent = userData.username || '未知用户';
+            document.getElementById('user-community').textContent = userData.community || '未加入社区';
+            document.getElementById('user-points').textContent = userData.points || 0;
+            
+            // 加载头像
+            if (userData.avatar) {
+                document.getElementById('user-avatar').src = userData.avatar;
+            }
+            
+            // 头像上传功能
+            const avatarContainer = document.getElementById('avatar-container');
+            const avatarUpload = document.getElementById('avatar-upload');
+            
+            avatarContainer.addEventListener('click', function() {
+                avatarUpload.click();
+            });
+            
+            avatarUpload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                
+                // 验证选择的是图片
+                if (file && file.type.startsWith('image/')) {
+                    // 文件大小限制（5MB）
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('图片大小不能超过5MB！');
+                        return;
+                    }
+                    
+                    // 读取文件并显示
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const imgSrc = e.target.result;
+                        document.getElementById('user-avatar').src = imgSrc;
+                        
+                        // 保存到localStorage
+                        userData.avatar = imgSrc;
+                        localStorage.setItem('mockUserData', JSON.stringify(userData));
+                        
+                        // 显示成功消息
+                        showSuccessMessage('头像更新成功！');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    alert('请选择一个有效的图片文件！');
+                }
+            });
+            
+            // 加载活动记录
+            loadActivityHistory();
+            
+            // 退出登录
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                if (confirm('确定要退出登录吗？')) {
+                    userData.isLoggedIn = false;
+                    localStorage.setItem('mockUserData', JSON.stringify(userData));
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+        
+        // 显示成功消息
+        function showSuccessMessage(message) {
+            // 创建消息元素
+            const messageDiv = document.createElement('div');
+            messageDiv.textContent = message;
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.bottom = '20px';
+            messageDiv.style.left = '50%';
+            messageDiv.style.transform = 'translateX(-50%)';
+            messageDiv.style.backgroundColor = 'var(--success-color)';
+            messageDiv.style.color = 'white';
+            messageDiv.style.padding = '10px 20px';
+            messageDiv.style.borderRadius = '4px';
+            messageDiv.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)';
+            messageDiv.style.zIndex = '1000';
+            
+            // 添加到页面
+            document.body.appendChild(messageDiv);
+            
+            // 2秒后自动移除
+            setTimeout(function() {
+                messageDiv.style.opacity = '0';
+                messageDiv.style.transition = 'opacity 0.5s ease';
+                
+                setTimeout(function() {
+                    document.body.removeChild(messageDiv);
+                }, 500);
+            }, 2000);
+        }
+        
+        // 加载活动记录
+        function loadActivityHistory() {
+            const historyContainer = document.getElementById('activity-history');
+            if (!historyContainer) return;
+            
+            const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+            
+            if (!userData.activities || userData.activities.length === 0) {
+                historyContainer.innerHTML = '<p style="text-align: center; color: var(--text-light);">暂无记录</p>';
+                return;
+            }
+            
+            // 清空容器
+            historyContainer.innerHTML = '';
+            
+            // 添加活动记录
+            userData.activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                
+                // 根据活动类型选择图标
+                let icon = 'leaf';
+                if (activity.type === '积分兑换') {
+                    icon = 'gift';
+                } else if (activity.description.includes('垃圾分类')) {
+                    icon = 'trash-alt';
+                } else if (activity.description.includes('步行')) {
+                    icon = 'walking';
+                } else if (activity.type === '系统奖励') {
+                    icon = 'award';
+                }
+                
+                // 积分正负样式
+                const pointsClass = activity.points > 0 ? 'positive' : 'negative';
+                
+                activityItem.innerHTML = `
+                    <div class="activity-icon">
+                        <i class="fas fa-${icon}"></i>
+                    </div>
+                    <div class="activity-info">
+                        <div class="activity-title">${activity.description}</div>
+                        <div class="activity-time">${activity.date}</div>
+                    </div>
+                    <div class="activity-points ${pointsClass}">
+                        ${activity.points > 0 ? '+' : ''}${activity.points}
+                    </div>
+                `;
+                
+                historyContainer.appendChild(activityItem);
+            });
+        }
+    </script>
+</body>
+</html> 

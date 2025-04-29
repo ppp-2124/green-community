@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>积分兑换 - 社区低碳积分平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 积分兑换页面特有样式 */
+        .exchange-header {
+            margin-bottom: 30px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .product-image {
+            height: 180px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .product-image i {
+            font-size: 3rem;
+            color: var(--primary-color);
+        }
+        
+        .product-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .product-description {
+            margin-bottom: 15px;
+            color: var(--text-light);
+            flex-grow: 1;
+        }
+        
+        .product-points {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+        
+        .category-filter {
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .filter-btn {
+            padding: 8px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background-color: var(--light-color);
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+        
+        .exchange-terms {
+            margin-top: 40px;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .exchange-history {
+            margin-top: 40px;
+        }
+        
+        .user-points-banner {
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .user-points-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .exchange-btn-container {
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html" class="active">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link active">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <a href="index.html">首页</a> / <span>积分兑换</span>
+            </div>
+
+    <!-- 主要内容区 -->
+    <div class="main-content">
+        <div class="container">
+            <div class="exchange-header">
+                <h1 style="margin-bottom: 10px;">积分兑换</h1>
+                <p style="color: var(--text-light);">用环保积分兑换商家提供的各种优惠券和奖励</p>
+            </div>
+            
+            <!-- 用户积分展示 -->
+            <div class="user-points-banner">
+                <div>
+                    <p>我的可用积分</p>
+                    <div class="user-points-value" id="user-points">0</div>
+                </div>
+                <a href="record.html" class="btn btn-primary">赚取更多积分</a>
+            </div>
+            
+            <!-- 分类筛选 -->
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="food">餐饮美食</button>
+                <button class="filter-btn" data-category="entertainment">休闲娱乐</button>
+                <button class="filter-btn" data-category="shopping">购物优惠</button>
+                <button class="filter-btn" data-category="transport">绿色出行</button>
+            </div>
+            
+            <!-- 商品列表 -->
+            <div class="product-grid" id="product-container">
+                <!-- 咖啡券 -->
+                <div class="card product-card" data-category="food">
+                    <div class="product-image">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="product-title">星巴克咖啡券</div>
+                    <div class="product-description">可兑换任意一杯中杯手工调制饮品，全国门店通用。</div>
+                    <div class="product-points">200 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="1" data-points="200">立即兑换</button>
+                    </div>
+                </div>
+                
+                <!-- 电影票 -->
+                <div class="card product-card" data-category="entertainment">
+                    <div class="product-image">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <div class="product-title">电影票8折券</div>
+                    <div class="product-description">万达影城电影票8折优惠券，周一至周四可用，节假日除外。</div>
+                    <div class="product-points">300 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="2" data-points="300">立即兑换</button>
+                    </div>
+                </div>
+                
+                <!-- 购物券 -->
+                <div class="card product-card" data-category="shopping">
+                    <div class="product-image">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                    <div class="product-title">购物中心50元代金券</div>
+                    <div class="product-description">可在合作购物中心使用，消费满200元可用，不与其他优惠叠加。</div>
+                    <div class="product-points">500 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="3" data-points="500">立即兑换</button>
+                    </div>
+                </div>
+                
+                <!-- 餐厅券 -->
+                <div class="card product-card" data-category="food">
+                    <div class="product-image">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="product-title">本地餐厅9折券</div>
+                    <div class="product-description">在指定本地餐厅用餐可享9折优惠，最高优惠50元。</div>
+                    <div class="product-points">350 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="4" data-points="350">立即兑换</button>
+                    </div>
+                </div>
+                
+                <!-- 图书券 -->
+                <div class="card product-card" data-category="entertainment">
+                    <div class="product-image">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <div class="product-title">新华书店20元代金券</div>
+                    <div class="product-description">可在新华书店购买图书使用，不适用于教材和教辅。</div>
+                    <div class="product-points">180 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="5" data-points="180">立即兑换</button>
+                    </div>
+                </div>
+                
+                <!-- 共享单车 -->
+                <div class="card product-card" data-category="transport">
+                    <div class="product-image">
+                        <i class="fas fa-bicycle"></i>
+                    </div>
+                    <div class="product-title">共享单车月卡</div>
+                    <div class="product-description">可获得共享单车30天不限次数骑行权益，每次最长2小时。</div>
+                    <div class="product-points">450 积分</div>
+                    <div class="exchange-btn-container">
+                        <button class="btn btn-primary exchange-btn" data-id="6" data-points="450">立即兑换</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 兑换说明 -->
+            <div class="exchange-terms">
+                <h3 style="margin-bottom: 15px;">兑换须知</h3>
+                <ul style="padding-left: 20px;">
+                    <li>积分兑换的优惠券有效期为兑换日起30天内。</li>
+                    <li>兑换成功后，可在【个人中心】-【我的优惠券】中查看券码。</li>
+                    <li>每种优惠券每月限兑换3次。</li>
+                    <li>优惠券不可转让、不可兑换现金、不可与其他优惠同时使用。</li>
+                    <li>最终解释权归商家所有。</li>
+                </ul>
+            </div>
+            
+            <!-- 兑换记录 -->
+            <div class="exchange-history">
+                <h2 style="margin-bottom: 20px;">兑换记录</h2>
+                <div id="exchange-history-container">
+                    <!-- 这里将通过JavaScript动态添加记录 -->
+                    <p style="color: var(--text-light); text-align: center;">暂无兑换记录</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分类筛选功能
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const productCards = document.querySelectorAll('.product-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // 切换按钮激活状态
+                    filterBtns.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // 筛选商品
+                    productCards.forEach(card => {
+                        if (category === 'all' || card.getAttribute('data-category') === category) {
+                            card.style.display = 'flex';
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // 更新用户积分
+            const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+            const userPointsEl = document.getElementById('user-points');
+            
+            if (userPointsEl) {
+                userPointsEl.textContent = userData.points || 0;
+            }
+            
+            // 兑换按钮点击事件
+            const exchangeBtns = document.querySelectorAll('.exchange-btn');
+            
+            exchangeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const productId = this.getAttribute('data-id');
+                    const productPoints = parseInt(this.getAttribute('data-points'));
+                    const productName = this.parentNode.parentNode.querySelector('.product-title').textContent;
+                    
+                    // 检查用户是否登录
+                    if (!userData.isLoggedIn) {
+                        alert('请先登录后再兑换！');
+                        window.location.href = 'login.html';
+                        return;
+                    }
+                    
+                    // 检查积分是否足够
+                    if (userData.points < productPoints) {
+                        alert('积分不足，无法兑换！');
+                        return;
+                    }
+                    
+                    // 确认兑换
+                    if (confirm(`确定使用${productPoints}积分兑换"${productName}"吗？`)) {
+                        // 扣除积分
+                        userData.points -= productPoints;
+                        
+                        // 添加兑换记录
+                        userData.activities = userData.activities || [];
+                        userData.activities.unshift({
+                            type: '积分兑换',
+                            description: `兑换${productName}`,
+                            points: -productPoints,
+                            date: new Date().toLocaleString()
+                        });
+                        
+                        // 保存数据
+                        localStorage.setItem('mockUserData', JSON.stringify(userData));
+                        
+                        // 更新显示
+                        userPointsEl.textContent = userData.points;
+                        
+                        // 显示成功消息
+                        alert('兑换成功！请在个人中心查看兑换详情。');
+                        
+                        // 刷新兑换记录
+                        loadExchangeHistory();
+                    }
+                });
+            });
+            
+            // 加载兑换记录
+            function loadExchangeHistory() {
+                const historyContainer = document.getElementById('exchange-history-container');
+                
+                if (!historyContainer) return;
+                
+                // 获取最新用户数据
+                const userData = JSON.parse(localStorage.getItem('mockUserData') || '{}');
+                
+                if (!userData.activities || userData.activities.length === 0) {
+                    historyContainer.innerHTML = '<p style="color: var(--text-light); text-align: center;">暂无兑换记录</p>';
+                    return;
+                }
+                
+                // 筛选出兑换记录
+                const exchangeActivities = userData.activities.filter(activity => 
+                    activity.type === '积分兑换'
+                );
+                
+                if (exchangeActivities.length === 0) {
+                    historyContainer.innerHTML = '<p style="color: var(--text-light); text-align: center;">暂无兑换记录</p>';
+                    return;
+                }
+                
+                // 清空容器
+                historyContainer.innerHTML = '';
+                
+                // 添加兑换记录
+                exchangeActivities.forEach(activity => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'card';
+                    historyItem.style.marginBottom = '10px';
+                    
+                    historyItem.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h3 style="margin: 0; font-size: 1rem;">${activity.description}</h3>
+                                <p style="color: var(--text-light); margin-top: 5px;">${activity.date}</p>
+                            </div>
+                            <div style="font-weight: bold; color: var(--text-light);">
+                                ${activity.points}
+                            </div>
+                        </div>
+                    `;
+                    
+                    historyContainer.appendChild(historyItem);
+                });
+            }
+            
+            // 初始加载兑换记录
+            loadExchangeHistory();
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>社区低碳积分平台 - 让环保更有趣</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 引入Chart.js图表库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保活动、知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html" class="active">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link active">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item active">概览</div>
+            </div>
+            
+            <!-- 数据统计卡片 -->
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <i class="fas fa-users stat-icon"></i>
+                    <div class="stat-value">24,680</div>
+                    <div class="stat-label">总参与人数</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-leaf stat-icon"></i>
+                    <div class="stat-value">12,560</div>
+                    <div class="stat-label">总减碳量(kg)</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-tree stat-icon"></i>
+                    <div class="stat-value">628</div>
+                    <div class="stat-label">相当于种植树木(棵)</div>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-calendar-check stat-icon"></i>
+                    <div class="stat-value">186</div>
+                    <div class="stat-label">环保活动次数</div>
+                </div>
+            </div>
+
+            <!-- 碳排放趋势图 -->
+            <div class="chart-container">
+                <h2 style="margin-bottom: 15px; color: var(--dark-color);">社区碳减排趋势</h2>
+                <canvas id="carbonChart" style="height: 350px; width: 100%;"></canvas>
+            </div>
+            
+            <!-- 两列布局 -->
+            <div class="two-column-layout">
+                <!-- 左侧内容 -->
+                <div>
+                    <!-- 平台介绍横幅 -->
+                    <section class="hero-banner" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/banner.jpg'); background-size: cover; background-position: center; color: white; padding: 60px 20px; text-align: center; border-radius: 10px; margin-bottom: 30px;">
+                        <h1 style="font-size: 2.5rem; margin-bottom: 20px;">让环保变得简单有趣</h1>
+                        <p style="font-size: 1.2rem; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">通过记录日常环保行为，获取积分兑换奖励，一起为社区减排做贡献！</p>
+                        <a href="login.html" class="btn btn-primary" style="font-size: 1.1rem; padding: 12px 25px;">立即加入</a>
+                    </section>
+                    
+                    <!-- 环保知识文章 -->
+                    <section class="article-list">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">环保知识</h2>
+                        
+                        <div class="article-item">
+                            <div class="article-image">
+                                <i class="fas fa-recycle" style="font-size: 2rem; color: var(--primary-color); display: flex; height: 100%; align-items: center; justify-content: center;"></i>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">垃圾分类小技巧：如何正确区分可回收物</h3>
+                                <p class="article-description">本文介绍了垃圾分类的基本知识，帮助您轻松掌握可回收物的识别方法和分类技巧...</p>
+                                <div class="article-meta">
+                                    <span><i class="far fa-calendar-alt"></i> 2025年4月10日</span>
+                                    <span><i class="far fa-eye"></i> 1,250次阅读</span>
+                                    <span><i class="far fa-comment"></i> 35条评论</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="article-item">
+                            <div class="article-image">
+                                <i class="fas fa-tint" style="font-size: 2rem; color: var(--primary-color); display: flex; height: 100%; align-items: center; justify-content: center;"></i>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">节水小窍门：如何在日常生活中减少用水量</h3>
+                                <p class="article-description">节约用水是环保的重要一环，本文分享了10个简单易行的节水方法，帮助您在日常生活中轻松减少用水量...</p>
+                                <div class="article-meta">
+                                    <span><i class="far fa-calendar-alt"></i> 2025年4月8日</span>
+                                    <span><i class="far fa-eye"></i> 985次阅读</span>
+                                    <span><i class="far fa-comment"></i> 28条评论</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="article-item">
+                            <div class="article-image">
+                                <i class="fas fa-bolt" style="font-size: 2rem; color: var(--primary-color); display: flex; height: 100%; align-items: center; justify-content: center;"></i>
+                            </div>
+                            <div class="article-content">
+                                <h3 class="article-title">家庭节能指南：降低家庭能源消耗的有效方法</h3>
+                                <p class="article-description">本文介绍了家庭节能的重要性，并提供了多种简单易行的方法，帮助您降低家庭能源消耗，减少碳足迹...</p>
+                                <div class="article-meta">
+                                    <span><i class="far fa-calendar-alt"></i> 2025年4月5日</span>
+                                    <span><i class="far fa-eye"></i> 1,120次阅读</span>
+                                    <span><i class="far fa-comment"></i> 42条评论</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <a href="knowledge.html" class="btn btn-secondary" style="margin-top: 20px;">查看更多文章</a>
+                    </section>
+                </div>
+                
+                <!-- 右侧内容 -->
+                <div>
+                    <!-- 活动日历 -->
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <div class="calendar-title">2025年4月环保活动</div>
+                            <div>
+                                <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.9rem;"><i class="fas fa-chevron-left"></i></button>
+                                <button class="btn btn-secondary" style="padding: 5px 10px; font-size: 0.9rem;"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; margin-bottom: 10px;">
+                            <div>日</div>
+                            <div>一</div>
+                            <div>二</div>
+                            <div>三</div>
+                            <div>四</div>
+                            <div>五</div>
+                            <div>六</div>
+                        </div>
+                        <div class="calendar-grid">
+                            <!-- 日历格子 -->
+                            <div class="calendar-day"></div>
+                            <div class="calendar-day">1</div>
+                            <div class="calendar-day has-event">2</div>
+                            <div class="calendar-day">3</div>
+                            <div class="calendar-day">4</div>
+                            <div class="calendar-day">5</div>
+                            <div class="calendar-day">6</div>
+                            
+                            <div class="calendar-day has-event">7</div>
+                            <div class="calendar-day">8</div>
+                            <div class="calendar-day">9</div>
+                            <div class="calendar-day">10</div>
+                            <div class="calendar-day has-event">11</div>
+                            <div class="calendar-day">12</div>
+                            <div class="calendar-day">13</div>
+                            
+                            <div class="calendar-day">14</div>
+                            <div class="calendar-day has-event">15</div>
+                            <div class="calendar-day">16</div>
+                            <div class="calendar-day">17</div>
+                            <div class="calendar-day">18</div>
+                            <div class="calendar-day has-event">19</div>
+                            <div class="calendar-day">20</div>
+                            
+                            <div class="calendar-day">21</div>
+                            <div class="calendar-day">22</div>
+                            <div class="calendar-day has-event">23</div>
+                            <div class="calendar-day">24</div>
+                            <div class="calendar-day">25</div>
+                            <div class="calendar-day">26</div>
+                            <div class="calendar-day has-event">27</div>
+                            
+                            <div class="calendar-day">28</div>
+                            <div class="calendar-day">29</div>
+                            <div class="calendar-day has-event">30</div>
+                        </div>
+                        <div style="margin-top: 15px; font-size: 0.9rem;">
+                            <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                                <span style="display: inline-block; width: 10px; height: 10px; background-color: var(--light-color); border: 1px solid var(--secondary-color); margin-right: 5px;"></span>
+                                <span>有环保活动</span>
+                            </div>
+                            <a href="activities.html" style="display: block; margin-top: 10px;">查看全部活动 →</a>
+                        </div>
+                    </div>
+                    
+                    <!-- 最新活动 -->
+                    <section class="news-section" style="margin-top: 30px;">
+                        <h2 style="margin-bottom: 20px; color: var(--dark-color);">最新活动</h2>
+                        
+                        <div class="card">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fas fa-bullhorn" style="font-size: 1.5rem; color: var(--primary-color); margin-right: 10px;"></i>
+                                <h3 style="margin: 0; font-size: 1.2rem;">春季社区垃圾分类挑战赛</h3>
+                            </div>
+                            <p>参与为期一个月的垃圾分类挑战，上传分类照片获取双倍积分，优胜社区将获得社区环境改造基金。</p>
+                            <p style="margin-top: 10px; color: var(--text-light);"><i class="far fa-calendar-alt"></i> 2025年4月1日 - 4月30日</p>
+                        </div>
+                        
+                        <div class="card">
+                            <div style="display: flex; align-items: center; margin-bottom: 15px;">
+                                <i class="fas fa-walking" style="font-size: 1.5rem; color: var(--primary-color); margin-right: 10px;"></i>
+                                <h3 style="margin: 0; font-size: 1.2rem;">步行上班月</h3>
+                            </div>
+                            <p>每天步行上班或上学，记录步数超过8000步即可获得额外积分，同时还有机会赢取运动装备大奖。</p>
+                            <p style="margin-top: 10px; color: var(--text-light);"><i class="far fa-calendar-alt"></i> 2025年5月1日 - 5月31日</p>
+                        </div>
+                    </section>
+                </div>
+            </div>
+            
+            <!-- 合作商家 -->
+            <section class="partners-section" style="margin-top: 40px; margin-bottom: 40px;">
+                <h2 style="margin-bottom: 20px; color: var(--dark-color);">合作商家</h2>
+                
+                <div style="display: flex; flex-wrap: wrap; justify-content: space-around; align-items: center;">
+                    <div style="text-align: center; margin: 15px; filter: grayscale(0.5);">
+                        <i class="fas fa-coffee" style="font-size: 2.5rem; color: var(--text-light);"></i>
+                        <p style="margin-top: 10px;">星星克</p>
+                    </div>
+                    <div style="text-align: center; margin: 15px; filter: grayscale(0.5);">
+                        <i class="fas fa-utensils" style="font-size: 2.5rem; color: var(--text-light);"></i>
+                        <p style="margin-top: 10px;">本地餐厅</p>
+                    </div>
+                    <div style="text-align: center; margin: 15px; filter: grayscale(0.5);">
+                        <i class="fas fa-film" style="font-size: 2.5rem; color: var(--text-light);"></i>
+                        <p style="margin-top: 10px;">玩达影城</p>
+                    </div>
+                    <div style="text-align: center; margin: 15px; filter: grayscale(0.5);">
+                        <i class="fas fa-shopping-bag" style="font-size: 2.5rem; color: var(--text-light);"></i>
+                        <p style="margin-top: 10px;">购物中心</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- 添加页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-copyright">
+                <p>&copy; 2025 社区低碳积分平台 - 让环保更有趣</p>
+            </div>
+            <ul class="footer-links">
+                <li><a href="#">关于我们</a></li>
+                <li><a href="#">使用条款</a></li>
+                <li><a href="#">隐私政策</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+        <!-- 添加联系方式信息 -->
+        <div class="container footer-contact">
+            <div class="footer-contact-info">
+                <div class="footer-contact-item">
+                    <i class="fas fa-phone"></i> 联系电话：15283675384
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-envelope"></i> 邮箱：b111814@qq.com
+                </div>
+                <div class="footer-contact-item">
+                    <i class="fas fa-map-marker-alt"></i> 地址：四川省xx市涪城区
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    
+    <!-- 图表脚本 -->
+    <script>
+        // 确保DOM完全加载后再初始化图表
+        document.addEventListener('DOMContentLoaded', function() {
+            // 碳排放趋势图
+            const ctx = document.getElementById('carbonChart').getContext('2d');
+            const carbonChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+                    datasets: [{
+                        label: '碳减排量 (kg)',
+                        data: [520, 680, 810, 950, 1020, 1150, 1290, 1380, 1510, 1650, 1780, 1920],
+                        borderColor: '#4CAF50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: '碳减排量 (kg)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: '月份'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 确保图表渲染
+            setTimeout(() => {
+                carbonChart.render();
+                console.log('社区碳减排趋势图表已渲染');
+            }, 100);
+        });
+    </script>
+</body>
+</html> 

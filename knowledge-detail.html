@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>塑料污染：你应该知道的关键事实 - 低碳行动平台</title>
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 使用Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* 文章详情页面特定样式 */
+        .article-container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .article-header {
+            margin-bottom: 30px;
+        }
+        
+        .article-title {
+            font-size: 2rem;
+            color: var(--dark-color);
+            margin-bottom: 15px;
+        }
+        
+        .article-meta {
+            display: flex;
+            align-items: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .article-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .article-author img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        .article-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .article-tag {
+            padding: 5px 12px;
+            background-color: var(--light-color);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--primary-color);
+        }
+        
+        .article-featured-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .article-featured-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .article-content {
+            color: var(--text-color);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        
+        .article-content p {
+            margin-bottom: 20px;
+        }
+        
+        .article-content h2 {
+            font-size: 1.6rem;
+            color: var(--dark-color);
+            margin: 30px 0 20px;
+        }
+        
+        .article-content h3 {
+            font-size: 1.3rem;
+            color: var(--dark-color);
+            margin: 25px 0 15px;
+        }
+        
+        .article-content ul, 
+        .article-content ol {
+            margin-bottom: 20px;
+            padding-left: 25px;
+        }
+        
+        .article-content li {
+            margin-bottom: 10px;
+        }
+        
+        .article-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .article-content blockquote {
+            border-left: 4px solid var(--primary-color);
+            padding: 15px 20px;
+            background-color: var(--light-color);
+            margin: 25px 0;
+            font-style: italic;
+        }
+        
+        .article-share {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .article-share-label {
+            font-weight: 500;
+            color: var(--dark-color);
+        }
+        
+        .article-share-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-color);
+            color: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .share-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .related-articles {
+            margin-bottom: 40px;
+        }
+        
+        .related-articles h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        
+        .related-article-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .related-article-card {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .related-article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .related-article-image {
+            height: 150px;
+            overflow: hidden;
+        }
+        
+        .related-article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .related-article-content {
+            padding: 15px;
+        }
+        
+        .related-article-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .related-article-meta {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 768px) {
+            .article-featured-image {
+                height: 250px;
+            }
+            
+            .article-title {
+                font-size: 1.7rem;
+            }
+            
+            .article-meta {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="navbar-logo">
+                <a href="index.html">
+                    <i class="fas fa-leaf"></i> 绿色社区
+                </a>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索环保知识...">
+                <button class="search-button"><i class="fas fa-search"></i></button>
+            </div>
+            
+            <ul class="navbar-menu">
+                <li><a href="index.html">首页</a></li>
+                <li><a href="record.html">碳行为记录</a></li>
+                <li><a href="exchange.html">积分兑换</a></li>
+                <li><a href="ranking.html">排行榜</a></li>
+                <li><a href="login.html">登录/注册</a></li>
+                <li><a href="profile.html"><i class="fas fa-user-circle"></i> 个人中心</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 页面主体 -->
+    <div class="page-wrapper">
+        <!-- 侧边栏 -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li class="sidebar-menu-item">
+                    <a href="index.html" class="sidebar-menu-link">
+                        <i class="fas fa-home"></i> 首页
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="dashboard.html" class="sidebar-menu-link">
+                        <i class="fas fa-chart-line"></i> 数据看板
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保行动</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="record.html" class="sidebar-menu-link">
+                        <i class="fas fa-camera"></i> 碳行为记录
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="activities.html" class="sidebar-menu-link">
+                        <i class="fas fa-calendar-alt"></i> 环保活动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">平台服务</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="exchange.html" class="sidebar-menu-link">
+                        <i class="fas fa-gift"></i> 积分兑换
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="ranking.html" class="sidebar-menu-link">
+                        <i class="fas fa-trophy"></i> 排行榜
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="community.html" class="sidebar-menu-link">
+                        <i class="fas fa-users"></i> 社区互动
+                    </a>
+                </li>
+                
+                <div class="sidebar-divider"></div>
+                <div class="sidebar-menu-category">环保知识</div>
+                
+                <li class="sidebar-menu-item">
+                    <a href="knowledge.html" class="sidebar-menu-link active">
+                        <i class="fas fa-book"></i> 知识库
+                    </a>
+                </li>
+                <li class="sidebar-menu-item">
+                    <a href="calculator.html" class="sidebar-menu-link">
+                        <i class="fas fa-calculator"></i> 碳排放计算器
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 面包屑导航 -->
+            <div class="breadcrumb">
+                <div class="breadcrumb-item"><a href="index.html">首页</a></div>
+                <div class="breadcrumb-item"><a href="knowledge.html">环保知识库</a></div>
+                <div class="breadcrumb-item active">塑料污染：你应该知道的关键事实</div>
+            </div>
+            
+            <!-- 文章内容 -->
+            <div class="article-container">
+                <div class="article-header">
+                    <h1 class="article-title">塑料污染：你应该知道的关键事实</h1>
+                    <div class="article-meta">
+                        <div class="article-author">
+                            <img src="images/author-avatar.jpg" alt="作者头像">
+                            <span>王海洋 | 环保研究员</span>
+                        </div>
+                        <div><i class="far fa-calendar-alt"></i> 2024-04-12</div>
+                        <div><i class="far fa-eye"></i> 8.5k 阅读</div>
+                        <div><i class="far fa-comment"></i> 126 评论</div>
+                    </div>
+                    <div class="article-tags">
+                        <span class="article-tag">海洋保护</span>
+                        <span class="article-tag">塑料污染</span>
+                        <span class="article-tag">环境危机</span>
+                        <span class="article-tag">可持续发展</span>
+                    </div>
+                </div>
+                
+                <div class="article-featured-image">
+                    <img src="images/plastic-pollution.jpg" alt="塑料污染">
+                </div>
+                
+                <div class="article-content">
+                    <p>塑料污染已成为全球环境面临的最严峻挑战之一。每年约有800万吨塑料进入海洋，相当于每分钟倾倒一辆垃圾车的塑料到海洋中。研究表明，如果我们不改变当前的消费模式，到2050年，海洋中的塑料重量将超过鱼类。</p>
+                    
+                    <h2>塑料污染的规模</h2>
+                    <p>自20世纪50年代大规模生产塑料以来，全球已生产了超过83亿吨塑料，其中仅有9%被回收，12%被焚烧，而剩余的79%则堆积在垃圾填埋场或自然环境中。塑料在环境中的分解时间从几十年到几百年不等，某些类型的塑料甚至可能需要上千年才能完全分解。</p>
+                    
+                    <p>海洋塑料污染尤为严重。目前已在全球所有海域，包括最深的马里亚纳海沟和最偏远的南极洲发现了塑料微粒。统计显示，约有700种海洋生物已知受到塑料污染的影响，每年约有10万海洋哺乳动物和100万海鸟死于塑料污染。</p>
+                    
+                    <h2>塑料对环境的影响</h2>
+                    <p>塑料对环境的影响是多方面的，主要包括以下几个方面：</p>
+                    
+                    <h3>1. 对海洋生态系统的影响</h3>
+                    <p>海洋生物可能会将塑料误认为食物而摄入，导致消化系统堵塞、营养不良甚至死亡。塑料绳索和渔网等废弃物可能会缠绕海洋生物，限制其行动能力，造成溺水、窒息或饥饿死亡。</p>
+                    
+                    <h3>2. 微塑料污染</h3>
+                    <p>微塑料是指直径小于5毫米的塑料颗粒，它们来源于大型塑料垃圾的降解或者直接添加到产品中（如洗面奶中的塑料磨砂粒）。微塑料已经渗透到食物链的各个层面，被发现存在于海鲜、瓶装水、啤酒和盐等食品中。</p>
+                    
+                    <h3>3. 对人类健康的潜在威胁</h3>
+                    <p>人类通过食物、水和空气吸入或摄入微塑料。研究表明，微塑料可能携带有害化学物质，并在消化道和肺部积累。虽然目前关于微塑料对人类健康长期影响的研究仍在进行中，但初步证据表明它们可能与激素紊乱、生殖问题和某些癌症有关。</p>
+                    
+                    <blockquote>
+                        "如果塑料是一个国家，它将是世界第五大温室气体排放国。" — 塑料与气候联盟
+                    </blockquote>
+                    
+                    <h2>解决方案与个人行动</h2>
+                    <p>为了应对塑料污染，需要政府、企业和个人共同努力。作为个人，我们可以采取以下行动：</p>
+                    
+                    <h3>减少一次性塑料使用</h3>
+                    <ul>
+                        <li>使用可重复使用的水瓶、购物袋和咖啡杯</li>
+                        <li>拒绝使用塑料吸管、餐具和其他一次性塑料制品</li>
+                        <li>购买散装食品，减少包装</li>
+                        <li>选择使用可重复使用或可堆肥的替代品</li>
+                    </ul>
+                    
+                    <h3>正确回收</h3>
+                    <p>了解当地的回收指南，确保正确分类和处理塑料废物。并非所有标有回收符号的塑料都可以回收，通常只有1号PET和2号HDPE塑料的回收率较高。</p>
+                    
+                    <h3>参与清洁活动</h3>
+                    <p>参加当地的海滩或河岸清洁活动，或自发组织清洁活动。这些活动不仅能直接减少环境中的塑料废物，还能提高公众对塑料污染问题的认识。</p>
+                    
+                    <h3>支持政策变革</h3>
+                    <p>支持旨在减少塑料污染的政策和法规，如塑料袋禁令、扩大生产者责任制等。通过投票、联系民选官员和参与公共咨询等方式表达您的支持。</p>
+                    
+                    <h2>结语</h2>
+                    <p>塑料污染是一个全球性挑战，需要各方共同努力解决。虽然问题规模庞大，但每个人的小行动累积起来可以产生重大影响。通过减少使用、重复使用和正确回收塑料，我们每个人都可以为减少塑料污染、保护海洋生态系统和人类健康贡献力量。</p>
+                    
+                    <p>记住，没有"扔掉"这回事——我们扔掉的所有东西都会去到某个地方。让我们共同努力，为下一代创造一个更加清洁、健康的环境。</p>
+                    
+                    <div class="article-share">
+                        <div class="article-share-label">分享文章：</div>
+                        <div class="article-share-buttons">
+                            <a href="#" class="share-btn"><i class="fab fa-weixin"></i></a>
+                            <a href="#" class="share-btn"><i class="fab fa-weibo"></i></a>
+                            <a href="#" class="share-btn"><i class="fab fa-qq"></i></a>
+                            <a href="#" class="share-btn"><i class="fas fa-link"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 相关文章 -->
+            <div class="related-articles">
+                <h2>相关文章</h2>
+                <div class="related-article-grid">
+                    <!-- 相关文章1 -->
+                    <div class="related-article-card">
+                        <div class="related-article-image">
+                            <img src="images/zero-waste.jpg" alt="零废弃生活方式">
+                        </div>
+                        <div class="related-article-content">
+                            <h3 class="related-article-title">零废弃生活入门：7天挑战计划</h3>
+                            <div class="related-article-meta">
+                                <span><i class="far fa-calendar-alt"></i> 2024-04-10</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 相关文章2 -->
+                    <div class="related-article-card">
+                        <div class="related-article-image">
+                            <img src="images/ocean-cleanup.jpg" alt="海洋清洁行动">
+                        </div>
+                        <div class="related-article-content">
+                            <h3 class="related-article-title">全球海洋清洁行动：创新技术与社区参与</h3>
+                            <div class="related-article-meta">
+                                <span><i class="far fa-calendar-alt"></i> 2024-03-18</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 相关文章3 -->
+                    <div class="related-article-card">
+                        <div class="related-article-image">
+                            <img src="images/bioplastics.jpg" alt="生物塑料">
+                        </div>
+                        <div class="related-article-content">
+                            <h3 class="related-article-title">生物塑料：未来的希望还是另一种形式的污染？</h3>
+                            <div class="related-article-meta">
+                                <span><i class="far fa-calendar-alt"></i> 2024-02-28</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h4>关于我们</h4>
+                <p>低碳行动平台致力于推动个人和社区的低碳生活方式，共同应对气候变化。</p>
+            </div>
+            <div class="footer-section">
+                <h4>联系方式</h4>
+                <p>邮箱：contact@ditanplatform.com</p>
+                <p>电话：400-123-4567</p>
+            </div>
+            <div class="footer-section">
+                <h4>关注我们</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-weixin"></i></a>
+                    <a href="#"><i class="fab fa-weibo"></i></a>
+                    <a href="#"><i class="fab fa-qq"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 低碳行动平台 版权所有</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分享按钮点击事件
+            const shareBtns = document.querySelectorAll('.share-btn');
+            shareBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('分享功能正在开发中');
+                });
+            });
+            
+            // 相关文章点击事件
+            const relatedArticles = document.querySelectorAll('.related-article-card');
+            relatedArticles.forEach(article => {
+                article.addEventListener('click', function() {
+                    const title = this.querySelector('.related-article-title').textContent;
+                    alert('您点击了文章：' + title + '，即将跳转到详情页面');
+                });
+            });
+            
+            // 获取URL参数
+            function getUrlParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
+            }
+            
+            // 根据URL参数加载对应文章内容
+            const articleId = getUrlParam('id');
+            if (articleId) {
+                console.log('加载文章ID：' + articleId);
+                // 在实际应用中，这里会根据ID加载不同的文章内容
+            }
+        });
+    </script>
+</body>
+</html> 
